@@ -33,6 +33,9 @@ export const uploadthingUrls = {
   },
   heroThumbnail: "https://utfs.io/f/IfdYuWUiRNceZ0iXN79vSjfObBPeg0lNAI4y1cDEUWMTxJq2",
 
+  // Morocco Hero Section Image
+  moroccoDesertImage: "https://ik.imagekit.io/momh2323/ChatGPT%20Image%20May%2018,%202025,%2005_37_36%20PM.png?updatedAt=1747850046692",
+
   // Main Activity Images
   toubkal: "https://utfs.io/f/IfdYuWUiRNceMcPedX7wdbu5ZjpiHX4z28RIqDxYB0NLSaAW",
   chezAliShow: "https://utfs.io/f/IfdYuWUiRNcefM9mxb0K7gEYHG0TLrySNq4QuRCUsbVBzi6t",
