@@ -1,0 +1,1066 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-content antialiased relative;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Global dot background - adjusted visibility */
+  body::before {
+    @apply content-[''] fixed inset-0 bg-dot-matrix bg-dot bg-dot-offset opacity-[0.12] pointer-events-none z-0;
+  }
+
+  /* Ensure content stays above the background */
+  main {
+    @apply relative z-10;
+  }
+}
+
+@layer components {
+  /* Premium Card Design System */
+  .premium-card {
+    @apply relative overflow-hidden rounded-premium bg-white transition-all duration-300 shadow-card;
+    transform: translateZ(0);
+  }
+  
+  .premium-card:hover {
+    @apply shadow-card-hover;
+  }
+  
+  .premium-card-media {
+    @apply relative overflow-hidden;
+  }
+  
+  .premium-card-media::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/10 z-10 opacity-60 transition-opacity duration-300;
+  }
+  
+  .premium-card:hover .premium-card-media::after {
+    @apply opacity-40;
+  }
+  
+  .premium-card-image {
+    @apply transition-transform duration-700 scale-100 object-cover;
+  }
+  
+  .premium-card:hover .premium-card-image {
+    @apply scale-110;
+  }
+  
+  .premium-card-badge {
+    @apply absolute top-4 left-4 z-20 flex items-center gap-1.5 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5 shadow-subtle overflow-hidden;
+  }
+  
+  .premium-card-badge::before {
+    content: '';
+    @apply absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shine;
+  }
+  
+  .premium-card-favorite {
+    @apply absolute top-4 right-4 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-sm shadow-subtle transition-all duration-200;
+  }
+  
+  .premium-card-favorite:hover {
+    @apply shadow-subtle-hover bg-white;
+  }
+  
+  .premium-card-content {
+    @apply p-6 flex flex-col;
+  }
+  
+  .premium-card-price {
+    @apply text-2xl font-medium text-stone-900;
+  }
+  
+  .premium-card-meta {
+    @apply flex items-center gap-1.5 text-stone-500 text-sm;
+  }
+  
+  .premium-card-title {
+    @apply font-medium text-stone-900 text-lg mb-2;
+  }
+  
+  .premium-card-description {
+    @apply text-stone-500 mb-5 line-clamp-2;
+  }
+  
+  .premium-card-divider {
+    @apply w-full h-px bg-stone-100;
+  }
+  
+  .premium-card-footer {
+    @apply pt-4 flex justify-between items-center;
+  }
+  
+  .premium-card-footer-text {
+    @apply text-sm text-stone-500;
+  }
+  
+  .premium-card-button {
+    @apply w-10 h-10 rounded-full bg-stone-900 flex items-center justify-center text-white transition-all duration-200;
+  }
+  
+  .premium-card-button:hover {
+    @apply transform scale-105;
+  }
+  
+  /* Sand-inspired styles */
+  .sand-card {
+    @apply bg-sand-50 shadow-none border border-sand-200;
+  }
+  
+  .sand-card:hover {
+    @apply shadow-subtle border-sand-300;
+  }
+  
+  .sand-gradient-bg {
+    @apply bg-gradient-to-r from-sand-100 to-sand-50;
+  }
+  
+  .sand-noise-bg {
+    @apply relative;
+  }
+  
+  .sand-noise-bg::before {
+    content: '';
+    @apply absolute inset-0 bg-noise opacity-40 pointer-events-none;
+  }
+  
+  /* Modern pill button design */
+  .pill-button {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all;
+  }
+  
+  .pill-button-primary {
+    @apply bg-stone-900 text-white shadow-subtle hover:shadow-subtle-hover hover:bg-stone-800 active:bg-stone-950;
+  }
+  
+  .pill-button-secondary {
+    @apply bg-stone-100 text-stone-700 hover:bg-stone-200 active:bg-stone-300;
+  }
+  
+  .pill-button-outline {
+    @apply border border-stone-200 hover:border-stone-300 bg-white text-stone-700 hover:bg-stone-50;
+  }
+  
+  /* Tab system */
+  .premium-tabs {
+    @apply flex rounded-full bg-stone-100/80 backdrop-blur-sm p-1 shadow-[inset_0px_0.5px_4px_rgba(0,0,0,0.06)];
+  }
+  
+  .premium-tab {
+    @apply px-5 py-2.5 rounded-full text-sm font-medium transition-all whitespace-nowrap;
+  }
+  
+  .premium-tab-active {
+    @apply bg-white text-stone-900 shadow-[0px_1px_3px_rgba(0,0,0,0.08)];
+  }
+  
+  .premium-tab-inactive {
+    @apply text-stone-500 hover:text-stone-700;
+  }
+
+  /* Clean Form Controls */
+  .input-base {
+    @apply block w-full rounded-xl border border-border bg-surface px-4 py-3
+           text-content placeholder-content-muted
+           transition-colors duration-200
+           focus:border-brand focus:outline-none 
+           hover:border-border-hover
+           disabled:opacity-60 disabled:cursor-not-allowed;
+  }
+
+  /* Clean Button System */
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl
+           bg-brand px-6 py-2.5 text-sm font-medium text-white
+           transition-colors duration-200
+           hover:bg-opacity-90
+           focus:outline-none
+           disabled:opacity-60 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-xl
+           border border-border bg-surface px-6 py-2.5
+           text-sm font-medium text-content
+           transition-colors duration-200
+           hover:bg-surface-secondary hover:border-border-hover 
+           focus:outline-none
+           disabled:opacity-60 disabled:cursor-not-allowed;
+  }
+
+  /* Clean Card */
+  .card {
+    @apply rounded-xl border border-border bg-surface p-6
+           transition-colors duration-200
+           hover:border-border-hover;
+  }
+
+  /* Clean Badge */
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 
+           text-xs font-medium transition-colors duration-200;
+  }
+
+  .badge-primary {
+    @apply bg-brand/10 text-brand border border-brand/20
+           hover:bg-brand/20;
+  }
+
+  .badge-secondary {
+    @apply bg-surface text-content-subtle border border-border
+           hover:bg-surface-secondary;
+  }
+
+  /* Clean Scrollbar */
+  .scrollbar-custom {
+    @apply scrollbar-thin scrollbar-track-transparent;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    @apply bg-surface-secondary rounded-full 
+           hover:bg-surface;
+  }
+
+  .key-button-shadow {
+    box-shadow: 
+      inset 0 1px 0 0 rgba(255,255,255,0.05),
+      0 1px 2px 0 rgba(0,0,0,0.3),
+      0 2px 4px 0 rgba(0,0,0,0.2);
+  }
+
+  .key-button-glow {
+    --purple-glow: theme('colors.purple.600');
+    box-shadow: 
+      0 0 25px 1px var(--purple-glow),
+      0 0 10px 1px var(--purple-glow),
+      inset 0 0 2px 0px rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Enhanced Glass Morphism Cards */
+  .glass-card {
+    @apply backdrop-blur-md bg-white/70 border border-white/40 
+           shadow-[0_4px_12px_rgba(0,0,0,0.05)];
+    backdrop-filter: blur(12px);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .glass-card:hover {
+    @apply bg-white/90 border-white/60 shadow-[0_4px_16px_rgba(0,0,0,0.08)];
+    transform: translateY(-1px);
+  }
+  
+  .glass-card-dark {
+    @apply backdrop-blur-xl bg-surface/20 border border-white/10 
+           shadow-[0_8px_32px_rgba(0,0,0,0.15)];
+  }
+  
+  .glass-highlight {
+    @apply backdrop-blur-xl bg-highlight-primary/10 border border-highlight-primary/20 
+           shadow-[0_8px_32px_rgba(249,115,22,0.1)];
+  }
+  
+  /* Testimonial Carousel */
+  .carousel-slide {
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* Custom mobile carousel styles */
+  .mobile-touch-scroll {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  .mobile-touch-scroll::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+  
+  /* Enhanced dot indicators for pagination on mobile */
+  .carousel-dots-container {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    max-width: 80vw;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .carousel-dots-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Prevent text selection on carousel elements for better mobile experience */
+  .carousel-slide * {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  
+  /* Hide scrollbar utility */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+}
+
+/* Third-party Component Styles */
+.react-datepicker-wrapper {
+  @apply w-full;
+}
+
+.react-datepicker {
+  font-family: inherit !important;
+  border-color: #e5e7eb !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  overflow: hidden;
+}
+
+.react-datepicker-popper {
+  @apply !z-50;
+}
+
+.react-datepicker__header {
+  background-color: white !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+  padding-top: 1rem !important;
+}
+
+.react-datepicker__current-month {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  color: #1f2937 !important;
+  padding-bottom: 0.5rem !important;
+}
+
+.react-datepicker__day-name {
+  color: #6b7280 !important;
+  font-weight: 500 !important;
+  width: 2.5rem !important;
+  margin: 0.25rem !important;
+}
+
+.react-datepicker__day {
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  line-height: 2.5rem !important;
+  margin: 0.25rem !important;
+  border-radius: 9999px !important;
+  transition: all 0.2s !important;
+}
+
+.react-datepicker__day:hover {
+  background-color: #8FC7EB !important;
+  color: white !important;
+  border-radius: 9999px !important;
+}
+
+.react-datepicker__day--selected {
+  background-color: #2d96d3 !important;
+  color: white !important;
+  font-weight: 500 !important;
+}
+
+.react-datepicker__day--today {
+  font-weight: 700 !important;
+  color: #2d96d3 !important;
+}
+
+.react-datepicker__day--today.react-datepicker__day--selected {
+  color: white !important;
+}
+
+.react-datepicker__day--disabled {
+  color: #d1d5db !important;
+  cursor: not-allowed !important;
+}
+
+.react-datepicker__day--disabled:hover {
+  background-color: transparent !important;
+  color: #d1d5db !important;
+}
+
+.react-datepicker__month-container {
+  float: none !important;
+}
+
+.react-datepicker__month {
+  margin: 0.75rem 0 !important;
+}
+
+.react-datepicker__triangle {
+  display: none !important;
+}
+
+.react-datepicker__navigation {
+  top: 1rem !important;
+}
+
+.react-datepicker__navigation-icon::before {
+  @apply !border-gray-400;
+}
+
+.react-datepicker__week {
+  @apply !flex !justify-around;
+}
+
+.react-datepicker__month {
+  @apply !m-0 !p-4;
+}
+
+.react-datepicker__month-container {
+  @apply !float-none;
+}
+
+/* Add smooth transitions */
+.react-datepicker__day,
+.react-datepicker__navigation-icon::before {
+  @apply !transition-all !duration-200;
+}
+
+.plyr {
+  @apply rounded-lg overflow-hidden;
+}
+
+.plyr--video {
+  @apply !bg-transparent;
+}
+
+.plyr__control--overlaid {
+  @apply !bg-brand/20 !transition-colors !duration-200;
+}
+
+.plyr__control--overlaid:hover {
+  @apply !bg-brand;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 10s infinite linear;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 1000px 100%;
+}
+
+@keyframes progressAnimation {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@layer utilities {
+  .animate-gradient {
+    animation: gradient 8s linear infinite;
+    background-size: 400% 400%;
+  }
+  
+  .animate-shine {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .animate-shine::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      90deg, 
+      transparent, 
+      rgba(255, 255, 255, 0.3), 
+      transparent
+    );
+    animation: shine 2s ease-in-out infinite;
+  }
+  
+  @keyframes shine {
+    0% { left: -100%; }
+    100% { left: 200%; }
+  }
+  
+  /* New testimonial section utilities */
+  .text-glow {
+    text-shadow: 0 0 15px rgba(249, 115, 22, 0.5), 0 0 10px rgba(249, 115, 22, 0.2);
+  }
+  
+  .text-glow-white {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 10px rgba(255, 255, 255, 0.1);
+  }
+  
+  .card-glow-hover {
+    transition: all 0.4s ease;
+  }
+  
+  .card-glow-hover:hover {
+    box-shadow: 0 0 30px rgba(249, 115, 22, 0.2);
+    border-color: rgba(249, 115, 22, 0.3);
+  }
+  
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeBlend mode='soft-light' in='SourceGraphic' result='monoNoise'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 100px;
+    opacity: 0.03;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Add these time picker specific styles after your datepicker styles */
+.time-picker-popper {
+  @apply !z-50 !mt-1;
+}
+
+.time-picker-calendar {
+  @apply !bg-[#0F1729] !border-gray-800 !rounded-lg !font-sans !shadow-xl !shadow-black/20 !w-32;
+}
+
+.react-datepicker__time-container {
+  @apply !float-none !w-full;
+}
+
+.react-datepicker__time {
+  @apply !bg-[#0F1729] !rounded-lg;
+}
+
+.react-datepicker__time-box {
+  @apply !w-full !rounded-lg;
+}
+
+.react-datepicker__time-list {
+  @apply !scrollbar-thin !scrollbar-track-transparent !scrollbar-thumb-gray-700 
+         hover:!scrollbar-thumb-gray-600;
+}
+
+.time-picker-option {
+  @apply !text-gray-300 !bg-transparent !cursor-pointer !py-2 !px-4
+         hover:!bg-cyan-500/20 hover:!text-white !transition-colors !text-center;
+}
+
+.react-datepicker__time-list-item--selected {
+  @apply !bg-cyan-500 !text-white hover:!bg-cyan-600;
+}
+
+.react-datepicker__header--time {
+  @apply !bg-[#0F1729] !border-gray-800 !text-gray-400;
+}
+
+.react-datepicker-time__header {
+  @apply !text-gray-300 !font-medium;
+}
+
+.react-datepicker__time-list-item--disabled {
+  @apply !text-gray-600 hover:!bg-transparent hover:!text-gray-600 !cursor-not-allowed;
+}
+
+/* Update the time picker scrollbar styles */
+.react-datepicker__time-list {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(55 65 81) transparent;
+}
+
+.react-datepicker__time-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.react-datepicker__time-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.react-datepicker__time-list::-webkit-scrollbar-thumb {
+  background-color: rgb(55 65 81);
+  border-radius: 20px;
+}
+
+.react-datepicker__time-list::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(75 85 99);
+}
+
+/* Add these styles for current day highlighting */
+.react-datepicker__day--today {
+  @apply !text-cyan-400 !font-semibold;
+}
+
+.react-datepicker__day--today:hover {
+  @apply !bg-cyan-500/20 !text-cyan-400;
+}
+
+.react-datepicker__day--today.react-datepicker__day--selected {
+  @apply !bg-cyan-500 !text-white hover:!bg-cyan-600;
+}
+
+/* Improve the keyboard focus indicator */
+.react-datepicker__day:focus {
+  @apply !outline-none !ring-2 !ring-cyan-500/50;
+}
+
+/* Make disabled dates more obviously disabled */
+.react-datepicker__day--disabled {
+  @apply !text-gray-600/50 hover:!bg-transparent hover:!text-gray-600/50 !cursor-not-allowed;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0.3; transform: scale(0.8); }
+}
+
+/* Custom Scrollbar */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thumb-gray-800::-webkit-scrollbar-thumb {
+  background-color: rgb(31, 41, 55);
+  border-radius: 9999px;
+}
+
+.scrollbar-track-transparent::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Add these styles to your globals.css */
+video::-webkit-media-controls-panel {
+  @apply bg-gradient-to-t from-black/80 to-transparent;
+}
+
+video::-webkit-media-controls-play-button {
+  @apply hover:scale-110 transition-transform duration-200;
+}
+
+video::-webkit-media-controls-timeline {
+  @apply hover:opacity-100 transition-opacity duration-200;
+}
+
+video::-webkit-media-controls-volume-slider {
+  @apply hover:opacity-100 transition-opacity duration-200;
+}
+
+video::-webkit-media-controls-mute-button {
+  @apply hover:scale-110 transition-transform duration-200;
+}
+
+@keyframes float-slow {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes float-slow-reverse {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes scale-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@layer utilities {
+  .animate-float-slow {
+    animation: float-slow 6s ease-in-out infinite;
+  }
+  .animate-float-slow-reverse {
+    animation: float-slow-reverse 7s ease-in-out infinite;
+  }
+  .animate-scale-pulse {
+    animation: scale-pulse 5s ease-in-out infinite;
+  }
+}
+
+/* Add these specific embla carousel enhancements for mobile */
+@media (max-width: 640px) {
+  .embla__viewport {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+  }
+  
+  .carousel-slide {
+    touch-action: pan-y;
+  }
+}
+
+/* Keep swipe indicators visible on small screens where scrollbars might be hidden */
+@media (max-width: 640px) {
+  .mobile-swipe-hint {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: rgba(249, 115, 22, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    animation: pulse-fade 2s infinite ease-in-out;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+  }
+  
+  @keyframes pulse-fade {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.8; }
+  }
+}
+
+/* Custom scrollbar for category filters */
+.scrollbar-custom {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(249, 115, 22, 0.3) transparent;
+}
+
+.scrollbar-custom::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: rgba(249, 115, 22, 0.3);
+  border-radius: 20px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(249, 115, 22, 0.5);
+}
+
+/* Purple theme utilities */
+.glass-purple {
+  @apply backdrop-blur-xl bg-purple-500/5 border border-purple-500/20 
+         shadow-lg hover:shadow-purple-glow transition-all duration-300;
+}
+
+.text-purple-glow {
+  text-shadow: 0 0 15px rgba(139, 92, 246, 0.5), 0 0 10px rgba(139, 92, 246, 0.2);
+}
+
+.purple-card-glow-hover {
+  transition: all 0.4s ease;
+}
+
+.purple-card-glow-hover:hover {
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+/* Animated gradient border */
+.gradient-border {
+  position: relative;
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #8B5CF6, #C4B5FD, #A78BFA, #7C3AED);
+  background-size: 400% 400%;
+  z-index: -1;
+  border-radius: inherit;
+  animation: gradient-border-animation 8s ease infinite;
+}
+
+@keyframes gradient-border-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Custom purple scrollbar */
+.purple-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 92, 246, 0.3) transparent;
+}
+
+.purple-scrollbar::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+
+.purple-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.purple-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(139, 92, 246, 0.3);
+  border-radius: 20px;
+}
+
+.purple-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(139, 92, 246, 0.5);
+}
+
+/* Purple button styles */
+.btn-purple {
+  @apply inline-flex items-center justify-center rounded-full
+         bg-purple-600 px-6 py-3 text-sm font-medium text-white
+         transition-all duration-300
+         shadow-md hover:shadow-lg hover:shadow-purple-500/20
+         hover:bg-purple-700 active:bg-purple-800
+         focus:outline-none focus:ring-2 focus:ring-purple-500/50;
+}
+
+.btn-purple-outline {
+  @apply inline-flex items-center justify-center rounded-full
+         border border-purple-200 bg-white px-6 py-3
+         text-sm font-medium text-purple-600
+         transition-all duration-300
+         hover:bg-purple-50 hover:border-purple-300 
+         active:bg-purple-100
+         focus:outline-none focus:ring-2 focus:ring-purple-500/30;
+}
+
+/* Soft purple background with noise texture */
+.bg-purple-noise {
+  background-color: #F5F3FF;
+  position: relative;
+}
+
+.bg-purple-noise::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeBlend mode='soft-light' in='SourceGraphic' result='monoNoise'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 100px;
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+/* Hero section enhancements */
+.hero-parallax-container {
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.hero-parallax-image {
+  transition: transform 0.6s cubic-bezier(0.33, 1, 0.68, 1);
+  will-change: transform;
+}
+
+.hero-glass-panel {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  padding: 2rem;
+  transform: translateY(0);
+  transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.hero-glass-panel:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.hero-back-button {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  z-index: 30;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  color: white;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.hero-back-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.hero-back-button:active {
+  transform: scale(0.95);
+}
+
+.hero-back-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hero-back-button:hover::before {
+  opacity: 1;
+}
+
+/* Add enhanced glow and text shadow effects */
+.text-glow-premium {
+  text-shadow: 
+    0 0 20px rgba(255, 255, 255, 0.3),
+    0 0 40px rgba(139, 92, 246, 0.2),
+    0 0 80px rgba(139, 92, 246, 0.1);
+}
+
+/* Non-animated badge for category */
+.highlight-badge-static {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.05));
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 2rem;
+  padding: 0.5rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.15);
+  position: relative;
+}
+
+.highlight-badge {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.05));
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 2rem;
+  padding: 0.5rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.highlight-badge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: shine-badge 3s infinite;
+}
+
+@keyframes shine-badge {
+  0% { left: -100%; }
+  50% { left: 200%; }
+  100% { left: -100%; }
+}
+
+/* Enhanced hover effects */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+}
+
+.hover-scale {
+  transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Animated gradient background */
+.gradient-animated-bg {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.05), rgba(139, 92, 246, 0.1));
+  background-size: 400% 400%;
+  animation: gradient-position 8s ease infinite;
+}
+
+@keyframes gradient-position {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
