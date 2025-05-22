@@ -106,7 +106,7 @@ export function HeroSection() {
             
             {/* Price tag */}
             <div className="absolute bottom-8 right-8 bg-stone-900 text-white rounded-full px-5 py-2.5 shadow-md flex items-center gap-2">
-              <span className="text-sm font-medium">From $99</span>
+              <span className="text-sm font-medium">From 99$</span>
             </div>
             
             {/* Add subtle overlay gradient */}
