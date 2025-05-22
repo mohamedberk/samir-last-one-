@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Star, Check, AlertCircle, ChevronDown, ChevronUp, PenSquare, X } from 'lucide-react'
 import { Review } from '@/types/activity'
 import { db } from '@/lib/firebase'
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
+import { collection, addDoc, serverTimestamp, Firestore } from 'firebase/firestore'
 import { toast } from 'react-hot-toast'
 import { motion, AnimatePresence } from 'framer-motion'
 import { format } from 'date-fns'
@@ -69,7 +69,13 @@ export function ReviewSection({
         date: serverTimestamp(),
       }
 
-      await addDoc(collection(db, 'reviews'), reviewData)
+      if (!db) {
+        console.error('Firebase database is not initialized')
+        toast.error('Failed to submit review. Please try again.')
+        return
+      }
+
+      await addDoc(collection(db as Firestore, 'reviews'), reviewData)
       
       toast.success('Review submitted successfully!')
       setComment('')

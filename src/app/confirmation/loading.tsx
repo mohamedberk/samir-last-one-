@@ -19,9 +19,9 @@ export default function ConfirmationLoading() {
               <h1 className="text-xl sm:text-2xl font-semibold text-stone-900">Booking Confirmation</h1>
             </div>
             
-            <div className="flex items-center gap-2 bg-green-50 px-3 py-1.5 rounded-full shadow-sm border border-green-100">
-              <CheckCircle2 size={16} className="text-green-600" />
-              <span className="text-sm font-medium text-green-700 hidden sm:inline">Processing Booking</span>
+            <div className="flex items-center gap-2 bg-blue-50 px-3 py-1.5 rounded-full shadow-sm border border-blue-100">
+              <Loader2 size={16} className="text-blue-600 animate-spin" />
+              <span className="text-sm font-medium text-blue-700 hidden sm:inline">Processing Booking</span>
             </div>
           </div>
         </div>
@@ -35,26 +35,33 @@ export default function ConfirmationLoading() {
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-400 via-highlight-primary to-pink-500"></div>
             
             <div className="flex flex-col items-center">
-              <div className="w-20 h-20 rounded-full bg-stone-100 flex items-center justify-center mb-6 animate-pulse">
+              <div className="w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center mb-6">
                 <Loader2 size={30} className="text-highlight-primary animate-spin" />
               </div>
               
-              <div className="h-8 w-64 bg-stone-100 rounded-lg animate-pulse mb-6"></div>
+              <h2 className="text-2xl font-bold mb-6 text-stone-900">Processing Your Booking</h2>
               
-              <div className="space-y-3 w-full max-w-md">
+              <div className="space-y-6 w-full max-w-md mb-6">
                 <div className="h-4 w-full bg-stone-100 rounded-full animate-pulse"></div>
                 <div className="h-4 w-5/6 bg-stone-100 rounded-full animate-pulse"></div>
                 <div className="h-4 w-4/6 bg-stone-100 rounded-full animate-pulse"></div>
               </div>
               
-              <div className="mt-8 w-full flex justify-center">
-                <div className="h-10 w-48 bg-stone-100 rounded-full animate-pulse"></div>
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 w-full max-w-md">
+                <p className="text-blue-800 text-center">
+                  Your booking is being confirmed. Please do not close this page.
+                </p>
               </div>
             </div>
           </div>
           
-          <div className="text-center mt-8 text-stone-600">
-            Processing your booking confirmation...
+          <div className="text-center mt-8 space-y-2">
+            <p className="text-stone-600">
+              Processing your booking confirmation...
+            </p>
+            <p className="text-stone-500 text-sm">
+              This may take a few moments
+            </p>
           </div>
         </div>
       </div>

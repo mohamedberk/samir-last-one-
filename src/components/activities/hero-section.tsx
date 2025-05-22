@@ -1,27 +1,13 @@
 "use client"
 
-import { useRef, useState, useEffect } from 'react'
+import { useRef } from 'react'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
-import { ArrowRight, ChevronRight, Star } from 'lucide-react'
+import { ArrowRight, ChevronRight, Star, Sparkles, MapPin } from 'lucide-react'
 import Link from 'next/link'
 import { uploadthingUrls } from '@/data/uploadthing-urls'
 
 export function HeroSection() {
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 })
-  const [isHovering, setIsHovering] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
-  
-  // Handle mouse movement for parallax effect
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!containerRef.current) return
-    
-    const { left, top, width, height } = containerRef.current.getBoundingClientRect()
-    const x = (e.clientX - left) / width
-    const y = (e.clientY - top) / height
-    
-    setCursorPosition({ x, y })
-  }
   
   // Featured destinations
   const featuredDestinations = [
@@ -33,64 +19,71 @@ export function HeroSection() {
   return (
     <section 
       className="relative w-full bg-sand-gradient py-16 overflow-hidden"
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
       ref={containerRef}
     >
       {/* Subtle noise background */}
       <div className="absolute inset-0 bg-noise opacity-30 pointer-events-none"></div>
       
       <div className="max-w-[1400px] mx-auto px-5 sm:px-8">
-        {/* Visual indicator bar - matches experience tabs styling */}
-        <div className="flex items-center gap-3 mb-2">
-          <div className="h-px w-10 bg-highlight-primary"></div>
-          <span className="text-sm font-medium tracking-wide text-highlight-primary">DISCOVER MOROCCO</span>
-        </div>
         
-        {/* Hero grid layout - 3 columns on large screens */}
+        {/* Hero grid layout - balanced columns */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          {/* Left column - Main heading and intro */}
+          {/* Left column - Main heading and intro - Now with premium card styling */}
           <div className="lg:col-span-4 z-10">
-            <h1 className="text-[3.5rem] md:text-[4.5rem] font-semibold text-stone-900 tracking-tight leading-[0.95] mb-6">
-              Authentic<br />
-              <span className="relative">
-                Moroccan
-                <div className="absolute h-1 bg-highlight-primary/30 bottom-3 left-0 w-full rounded-full"></div>
-              </span><br />
-              Experiences
-            </h1>
-            
-            <p className="text-stone-600 mb-8 text-lg leading-relaxed">
-              Immerse yourself in the magic of Morocco with our handcrafted luxury experiences and private tours.
-            </p>
-            
-            <div className="hidden md:flex items-center gap-4 text-sm mb-10">
-              {featuredDestinations.map((dest, i) => (
-                <div key={i} className="flex items-center">
-                  {i > 0 && <div className="h-6 w-px bg-stone-200 mx-3"></div>}
-                  <div>
-                    <div className="text-stone-800 font-medium">{dest.name}</div>
-                    <div className="flex items-center gap-1 text-xs text-stone-500">
-                      <Star size={12} className="fill-highlight-primary text-highlight-primary" />
-                      <span>{dest.rating}</span>
-                      <span>({dest.count})</span>
+            <div className="premium-card h-[550px] overflow-hidden flex flex-col">
+              <div className="p-8 flex flex-col h-full justify-between">
+                <div>
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="h-6 w-6 rounded-full bg-highlight-primary flex items-center justify-center">
+                      <Sparkles size={14} className="text-white" />
                     </div>
+                    <span className="text-sm font-medium text-highlight-primary">Premium Experiences</span>
+                  </div>
+                  
+                  <h1 className="text-3xl md:text-4xl font-semibold text-stone-900 tracking-tight leading-tight mb-6">
+                    Authentic Moroccan Experiences
+                  </h1>
+                  
+                  <p className="text-stone-600 mb-8 text-base leading-relaxed">
+                    Immerse yourself in the magic of Morocco with our handcrafted luxury experiences and private tours.
+                  </p>
+                  
+                  {/* Destination cards using the premium card style */}
+                  <div className="space-y-3">
+                    {featuredDestinations.map((dest, i) => (
+                      <div key={i} className="p-3 rounded-premium bg-stone-50 border border-stone-200 hover:border-highlight-primary/30 hover:shadow-subtle transition-all flex items-center justify-between group">
+                        <div className="flex items-center gap-2">
+                          <MapPin size={16} className="text-highlight-primary" />
+                          <span className="font-medium text-stone-800">{dest.name}</span>
+                        </div>
+                        <div className="flex items-center gap-1 text-xs text-stone-500">
+                          <Star size={12} className="fill-highlight-primary text-highlight-primary" />
+                          <span>{dest.rating}</span>
+                          <span className="text-stone-400">({dest.count})</span>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              ))}
-            </div>
-            
-            <div className="flex items-center gap-4">
-              <Link href="/experiences" className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-sm font-medium bg-highlight-primary text-white shadow-sm hover:shadow-glow transition-all">
-                <span>Explore experiences</span>
-                <ArrowRight size={16} />
-              </Link>
-              
-              <Link href="/about" className="inline-flex items-center justify-center gap-1 px-5 py-3.5 rounded-full text-sm font-medium border border-stone-200 text-stone-700 hover:bg-stone-50 transition-all">
-                <span>About us</span>
-                <ChevronRight size={14} />
-              </Link>
+                
+                <div className="flex items-center gap-4 pt-8">
+                  <a 
+                    href="#activities" 
+                    className="btn-purple flex-1 justify-center"
+                  >
+                    <span>Explore</span>
+                    <ArrowRight size={16} />
+                  </a>
+                  
+                  <a 
+                    href="#footer" 
+                    className="btn-purple-outline flex-1 justify-center"
+                  >
+                    <span>About us</span>
+                    <ChevronRight size={14} />
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
           
@@ -102,11 +95,6 @@ export function HeroSection() {
               fill
               priority
               className="object-cover transition-transform duration-1000 group-hover:scale-105"
-              style={{
-                transform: isHovering ? 
-                  `translate(${(cursorPosition.x - 0.5) * -20}px, ${(cursorPosition.y - 0.5) * -20}px)` : 
-                  'translate(0, 0)'
-              }}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             
@@ -134,11 +122,6 @@ export function HeroSection() {
                 alt="Moroccan cultural experience" 
                 fill
                 className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                style={{
-                  transform: isHovering ? 
-                    `translate(${(cursorPosition.x - 0.5) * -10}px, ${(cursorPosition.y - 0.5) * -10}px)` : 
-                    'translate(0, 0)'
-                }}
                 sizes="(max-width: 1200px) 25vw, 20vw"
               />
               
@@ -158,11 +141,6 @@ export function HeroSection() {
                 alt="Moroccan luxury accommodation" 
                 fill
                 className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                style={{
-                  transform: isHovering ? 
-                    `translate(${(cursorPosition.x - 0.5) * -15}px, ${(cursorPosition.y - 0.5) * -15}px)` : 
-                    'translate(0, 0)'
-                }}
                 sizes="(max-width: 1200px) 25vw, 20vw"
               />
               

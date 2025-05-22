@@ -19,22 +19,20 @@ export function MoroccoHeroSection() {
   }, []);
 
   return (
-    <section className="relative h-[90vh] w-full bg-cover bg-center bg-no-repeat overflow-hidden" style={{ 
-      backgroundImage: `url(${moroccoDesertImage})`,
-      backgroundPosition: 'center top',
-    }}>
-      {/* Parallax effect on background */}
+    <section className="relative h-[90vh] w-full overflow-hidden">
+      {/* Image container with specific dimensions */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ 
           backgroundImage: `url(${moroccoDesertImage})`,
-          backgroundPosition: 'center top',
+          backgroundPosition: 'center 20%',
+          backgroundSize: 'cover',
           transform: `translateY(${scrollPosition * 0.15}px)`
         }}
       ></div>
       
       {/* Gradient overlay to enhance image contrast */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/50"></div>
       
       {/* Subtle texture overlay */}
       <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjZmZmIj48L3JlY3Q+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNmOGY4ZjgiPjwvcmVjdD4KPC9zdmc+')]"></div>

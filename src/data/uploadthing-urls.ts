@@ -34,7 +34,7 @@ export const uploadthingUrls = {
   heroThumbnail: "https://utfs.io/f/IfdYuWUiRNceZ0iXN79vSjfObBPeg0lNAI4y1cDEUWMTxJq2",
 
   // Morocco Hero Section Image
-  moroccoDesertImage: "https://ik.imagekit.io/momh2323/ChatGPT%20Image%20May%2018,%202025,%2005_37_36%20PM.png?updatedAt=1747850046692",
+  moroccoDesertImage: "https://ik.imagekit.io/momh2323/ChatGPT%20Image%20May%2022,%202025,%2012_21_20%20PM.png?updatedAt=1747913072653",
 
   // Main Activity Images
   toubkal: "https://utfs.io/f/IfdYuWUiRNceMcPedX7wdbu5ZjpiHX4z28RIqDxYB0NLSaAW",
@@ -47,7 +47,7 @@ export const uploadthingUrls = {
   agafay: "https://k1yeaaumim.ufs.sh/f/IfdYuWUiRNce5C8s1rLFX9CuOBemqTiontrhPc1xV6ayLbjz",
   casablanca: "https://utfs.io/f/IfdYuWUiRNcerDeNJ0xLJRMHdZTF3BYSoIOsnh506wlNfXVc",
   imperialCities: "https://utfs.io/f/IfdYuWUiRNceXeinh4mepG4DY7WJK6VjwcoB8MALZgiOfkE2",
-  merzouga: "https://k1yeaaumim.ufs.sh/f/IfdYuWUiRNceUlKCr8upAP9VfyrQEhJOBub32NHvceCqlTz4",
+  merzouga: "https://ik.imagekit.io/momh2323/ChatGPT%20Image%20May%2022,%202025,%2012_02_22%20PM.png?updatedAt=1747911889405",
   hotAirBalloon: "https://k1yeaaumim.ufs.sh/f/IfdYuWUiRNceDNnCH8IKQNz7tEvTloSc03fb6OhM8q2I9XUg",
   agafayNight: "https://utfs.io/f/IfdYuWUiRNceP5ZU8tdLMvxHU7SwKuRhNBf14lqstVZinJPF",
 

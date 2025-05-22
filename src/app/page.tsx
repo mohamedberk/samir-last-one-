@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 
-import { MoroccoHeroSection } from '@/components/activities/moroccanhero'
+import { HeroSection } from '@/components/activities/hero-section'
 import { TestimonialsSection } from '@/components/activities/testimonials-section'
 import { Footer } from '@/components/activities/footer'
 
@@ -61,10 +61,10 @@ export default function Home() {
       <div className="flex flex-col w-full gap-0 relative">
         
         {/* Hero Section */}
-        <MoroccoHeroSection />
+        <HeroSection />
         
-        {/* Experience Tabs Section - Positioned to overlap with Hero */}
-        <div className="relative -mt-[7rem] z-20">
+        {/* Experience Tabs Section - No longer overlapping */}
+        <div className="relative z-20">
           <Suspense fallback={
           <div className="w-full bg-sand-gradient relative py-16">
             <div className="absolute inset-0 bg-noise opacity-30 pointer-events-none"></div>

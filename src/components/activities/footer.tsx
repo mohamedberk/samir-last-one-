@@ -15,7 +15,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="w-full bg-sand-gradient relative pt-16 pb-8 overflow-hidden border-t border-stone-200">
+    <footer id="footer" className="w-full bg-sand-gradient relative pt-16 pb-8 overflow-hidden border-t border-stone-200">
       {/* Subtle noise background */}
       <div className="absolute inset-0 bg-noise opacity-30 pointer-events-none"></div>
       

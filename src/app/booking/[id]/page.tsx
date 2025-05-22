@@ -10,6 +10,7 @@ import { Activity } from '@/types/activity'
 import { Booking } from '@/types/booking'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
+import { createBooking } from '@/lib/firebase/services'
 
 export default function BookingPage({ params, searchParams }: { 
   params: { id: string },
@@ -244,47 +245,57 @@ export default function BookingPage({ params, searchParams }: {
     
     setIsProcessing(true)
     
-    // Create booking object
-    const bookingData: Partial<Booking> = {
-      customerInfo: {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        confirmPhone: formData.confirmPhone,
-        nationality: formData.nationality,
-        pickupLocation: formData.pickupLocation
-      },
-      date: bookingDate,
-      tourType: tourType as 'group' | 'private',
-      activities: [{
-        id: activity.id,
-        name: activity.title,
-        basePrice: calculateBasePrice(),
-        childPrice: activity.options[tourType as 'group' | 'private'].childPrice,
-        adultCount: adults,
-        childCount: children,
-        adultTotal: tourType === 'group' ? activity.options.group.price * adults : 0,
-        childTotal: tourType === 'group' && children > 0 ? activity.options.group.childPrice * children : 0,
-        totalPrice: calculateTotalPrice()
-      }],
-      guests: {
-        adults,
-        children
-      },
-      airportTransfer: null,
-      paymentDetails: {
-        status: 'pending',
-        totalAmount: calculateTotalPrice().toString(),
-        currency: 'USD'
-      },
-      status: 'pending'
+    try {
+      // Create booking object
+      const bookingData: Partial<Booking> = {
+        customerInfo: {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          confirmPhone: formData.confirmPhone,
+          nationality: formData.nationality,
+          pickupLocation: formData.pickupLocation
+        },
+        date: bookingDate,
+        tourType: tourType as 'group' | 'private',
+        activities: [{
+          id: activity.id,
+          name: activity.title,
+          basePrice: calculateBasePrice(),
+          childPrice: activity.options[tourType as 'group' | 'private'].childPrice,
+          adultCount: adults,
+          childCount: children,
+          adultTotal: tourType === 'group' ? activity.options.group.price * adults : 0,
+          childTotal: tourType === 'group' && children > 0 ? activity.options.group.childPrice * children : 0,
+          totalPrice: calculateTotalPrice()
+        }],
+        guests: {
+          adults,
+          children
+        },
+        airportTransfer: null,
+        paymentDetails: {
+          status: 'confirmed',
+          totalAmount: calculateTotalPrice().toString(),
+          currency: 'USD'
+        },
+        status: 'confirmed'
+      }
+      
+      // Save to Firestore
+      const bookingReference = await createBooking(bookingData)
+      
+      if (!bookingReference) {
+        throw new Error("Failed to create booking")
+      }
+      
+      // Redirect to confirmation page with just the reference
+      router.push(`/confirmation?reference=${bookingReference}`)
+    } catch (error) {
+      console.error('Error creating booking:', error)
+      setIsProcessing(false)
+      alert('There was an error processing your booking. Please try again.')
     }
-    
-    // Simulate API call
-    setTimeout(() => {
-      // Redirect to confirmation page
-      router.push(`/confirmation?booking=${encodeURIComponent(JSON.stringify(bookingData))}`)
-    }, 1500)
   }
   
   // Fetch activity data
@@ -384,7 +395,17 @@ export default function BookingPage({ params, searchParams }: {
     );
   };
   
-  return (    <main className="bg-gradient-to-b from-stone-50 to-sand-100 min-h-screen">      {/* Booking Header */}      <div className="sticky top-0 left-0 right-0 z-30 bg-white shadow-md border-b border-stone-200">        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-5">          <div className="flex items-center justify-between">            <div className="flex items-center gap-4">              <Link                href={`/activities/${activity.id}`}                className="group flex items-center gap-2 px-4 py-2 rounded-full bg-stone-100 hover:bg-stone-200 transition-all shadow-sm"              >                <ArrowLeft size={18} className="text-stone-700 group-hover:text-highlight-primary transition-colors" />                <span className="text-sm font-medium text-stone-700 group-hover:text-highlight-primary transition-colors">Back to Activity</span>              </Link>              <h1 className="text-xl sm:text-2xl font-semibold text-stone-900">Complete Your Booking</h1>            </div>                        <div className="flex items-center gap-2 bg-green-50 px-3 py-1.5 rounded-full shadow-sm border border-green-100">              <Shield size={16} className="text-green-600" />              <span className="text-sm font-medium text-green-700 hidden sm:inline">Secure Checkout</span>            </div>          </div>        </div>      </div>
+  return (    <main className="bg-gradient-to-b from-stone-50 to-sand-100 min-h-screen">      {/* Booking Header */}      <div className="sticky top-0 left-0 right-0 z-30 bg-white shadow-md border-b border-stone-200">        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-5">          <div className="flex items-center justify-between">            <div className="flex items-center gap-4">              
+              <Link                
+                href={`/activities/${activity.id}`}                
+                className="group flex items-center gap-2 px-4 py-2 rounded-full bg-stone-100 hover:bg-stone-200 transition-all shadow-sm"              
+              >                
+                <ArrowLeft size={18} className="text-stone-700 group-hover:text-highlight-primary transition-colors" />                
+                <span className="text-sm font-medium text-stone-700 group-hover:text-highlight-primary transition-colors">Back to Activity</span>              
+              </Link>              
+              <h1 className="text-xl sm:text-2xl font-semibold text-stone-900">Complete Your Booking</h1>            
+            </div>
+                        <div className="flex items-center gap-2 bg-green-50 px-3 py-1.5 rounded-full shadow-sm border border-green-100">              <Shield size={16} className="text-green-600" />              <span className="text-sm font-medium text-green-700 hidden sm:inline">Secure Checkout</span>            </div>          </div>        </div>      </div>
       
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

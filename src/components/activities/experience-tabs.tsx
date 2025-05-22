@@ -112,9 +112,9 @@ export function ExperienceTabs({ className }: ExperienceTabsProps) {
   }
 
   return (
-    <section className="w-full bg-sand-gradient relative py-16 rounded-t-[30px] shadow-2xl border border-sand-200 border-b-0" id="activities">
+    <section className="w-full bg-sand-gradient relative py-16 border-t border-sand-200" id="activities">
       {/* Subtle noise background */}
-      <div className="absolute inset-0 bg-noise opacity-30 pointer-events-none rounded-t-[30px]"></div>
+      <div className="absolute inset-0 bg-noise opacity-30 pointer-events-none"></div>
       
       <div className="max-w-[1400px] mx-auto px-5 sm:px-8" ref={containerRef}>
         {/* Section heading with enhanced styling */}

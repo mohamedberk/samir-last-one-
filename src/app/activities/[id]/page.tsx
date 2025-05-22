@@ -158,7 +158,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
         
         {/* Back Button */}
         <button 
-          onClick={() => router.back()}
+          onClick={() => router.push('/')}
           className="hero-back-button"
           aria-label="Go back"
         >
@@ -232,7 +232,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
               <div className="relative z-10">
                 <div className="flex items-center gap-2 mb-3">
                   <div className="h-px w-8 bg-highlight-primary"></div>
-                  <span className="text-sm text-gray-700 font-medium">ABOUT THE EXPERIENCE</span>
+                  <span className="text-sm text-highlight-primary font-medium">ABOUT THE EXPERIENCE</span>
                 </div>
                 <p className="text-gray-700 text-lg leading-relaxed mb-6">
                   {activity.description}
@@ -241,7 +241,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
                 {/* Highlights */}
                 {activity.highlights && activity.highlights.length > 0 && (
                   <div className="mt-8">
-                    <h3 className="text-xl font-semibold mb-4">Experience Highlights</h3>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4">Experience Highlights</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {activity.highlights.map((highlight, index) => (
                         <div key={index} className="flex items-start gap-3 group">
@@ -266,7 +266,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
                       <div className="h-px w-8 bg-highlight-primary"></div>
                       <span className="text-sm text-highlight-primary font-medium">GALLERY</span>
                     </div>
-                    <h2 className="text-2xl font-semibold">Experience Preview</h2>
+                    <h2 className="text-2xl font-semibold text-gray-900">Experience Preview</h2>
                   </div>
                   
                   <div className="flex items-center gap-2">
@@ -315,7 +315,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
                   <div className="h-px w-8 bg-highlight-primary"></div>
                   <span className="text-sm text-gray-700 font-medium">JOURNEY</span>
                 </div>
-                <h2 className="text-2xl font-semibold mb-6">Detailed Itinerary</h2>
+                <h2 className="text-2xl font-semibold text-gray-900 mb-6">Detailed Itinerary</h2>
                 
                 <div className="space-y-6">
                   {activity.itinerary.map((item, index) => (
@@ -330,7 +330,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
                         <span className="font-medium text-stone-700 group-hover:text-highlight-primary transition-colors duration-300">{index + 1}</span>
                       </div>
                       
-                      <h3 className="text-lg font-medium mb-2 group-hover:text-highlight-primary transition-colors duration-300">{item.activity}</h3>
+                      <h3 className="text-lg font-medium text-gray-900 mb-2 group-hover:text-highlight-primary transition-colors duration-300">{item.activity}</h3>
                       <p className="text-gray-600">{item.description}</p>
                     </div>
                   ))}
@@ -342,7 +342,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
               {activity.included && activity.included.length > 0 && (
                 <div className="glass-card p-6 rounded-premium h-full transform hover:translate-y-[-5px] transition-all duration-300">
-                  <h3 className="text-xl font-semibold mb-4">What's Included</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-4">What's Included</h3>
                   <ul className="space-y-3">
                     {activity.included.map((item, index) => (
                       <li key={index} className="flex items-start gap-3 group">
@@ -358,7 +358,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
               
               {activity.notIncluded && activity.notIncluded.length > 0 && (
                 <div className="glass-card p-6 rounded-premium h-full transform hover:translate-y-[-5px] transition-all duration-300">
-                  <h3 className="text-xl font-semibold mb-4">Not Included</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Not Included</h3>
                   <ul className="space-y-3">
                     {activity.notIncluded.map((item, index) => (
                       <li key={index} className="flex items-start gap-3 group">
@@ -381,7 +381,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
                     <Shield size={20} className="text-highlight-primary" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2">Travel Recommendations</h3>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Travel Recommendations</h3>
                     <p className="text-gray-600 mb-6">We recommend you bring the following items to enhance your experience:</p>
                     
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -433,7 +433,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
                     <label className="block text-gray-700 font-medium mb-2">Guests</label>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm text-gray-600 mb-1">Adults</label>
+                        <label className="block text-sm text-gray-700 mb-1">Adults</label>
                         <div className="flex items-center border border-gray-200 rounded-xl overflow-hidden">
                           <button 
                             className="w-10 h-10 flex items-center justify-center text-gray-500 hover:bg-gray-50 transition-colors"
@@ -441,7 +441,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
                           >
                             -
                           </button>
-                          <div className="flex-1 text-center font-medium">{guests.adults}</div>
+                          <div className="flex-1 text-center font-medium text-gray-900">{guests.adults}</div>
                           <button 
                             className="w-10 h-10 flex items-center justify-center text-gray-500 hover:bg-gray-50 transition-colors"
                             onClick={() => setGuests(prev => ({ ...prev, adults: prev.adults + 1 }))}
@@ -451,7 +451,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
                         </div>
                       </div>
                       <div>
-                        <label className="block text-sm text-gray-600 mb-1">Children</label>
+                        <label className="block text-sm text-gray-700 mb-1">Children</label>
                         <div className="flex items-center border border-gray-200 rounded-xl overflow-hidden">
                           <button 
                             className="w-10 h-10 flex items-center justify-center text-gray-500 hover:bg-gray-50 transition-colors"
@@ -459,7 +459,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
                           >
                             -
                           </button>
-                          <div className="flex-1 text-center font-medium">{guests.children}</div>
+                          <div className="flex-1 text-center font-medium text-gray-900">{guests.children}</div>
                           <button 
                             className="w-10 h-10 flex items-center justify-center text-gray-500 hover:bg-gray-50 transition-colors"
                             onClick={() => setGuests(prev => ({ ...prev, children: prev.children + 1 }))}
@@ -474,19 +474,19 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
                   {/* Price Summary */}
                   <div className="mb-6 bg-stone-50 rounded-premium p-4">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-gray-700">Base price</span>
-                      <span className="font-medium">${calculateBasePrice()}</span>
+                      <span className="text-gray-900">Base price</span>
+                      <span className="font-medium text-gray-900">${calculateBasePrice()}</span>
                     </div>
                     {selectedType === 'group' && (
                       <>
                         <div className="flex justify-between items-center mb-2">
-                          <span className="text-gray-700">Adults ({guests.adults})</span>
-                          <span className="font-medium">${activity.options.group.price * guests.adults}</span>
+                          <span className="text-gray-900">Adults ({guests.adults})</span>
+                          <span className="font-medium text-gray-900">${activity.options.group.price * guests.adults}</span>
                         </div>
                         {guests.children > 0 && (
                           <div className="flex justify-between items-center mb-2">
-                            <span className="text-gray-700">Children ({guests.children})</span>
-                            <span className="font-medium">${activity.options.group.childPrice * guests.children}</span>
+                            <span className="text-gray-900">Children ({guests.children})</span>
+                            <span className="font-medium text-gray-900">${activity.options.group.childPrice * guests.children}</span>
                           </div>
                         )}
                       </>
@@ -539,23 +539,35 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
                 <div className="h-px w-8 bg-highlight-primary"></div>
                 <span className="text-sm text-highlight-primary font-medium">DISCOVER MORE</span>
               </div>
-              <h2 className="text-3xl font-semibold">Similar Experiences</h2>
+              <h2 className="text-3xl font-semibold text-gray-900">Similar Experiences</h2>
             </div>
             <Link 
               href="/#activities" 
               className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium border border-highlight-primary/30 hover:bg-white transition-colors group"
             >
-              <span className="group-hover:text-highlight-primary transition-colors">View all</span>
-              <ArrowRight size={16} className="group-hover:text-highlight-primary transition-colors" />
+              <span className="text-gray-700 group-hover:text-highlight-primary transition-colors">View all</span>
+              <ArrowRight size={16} className="text-gray-700 group-hover:text-highlight-primary transition-colors" />
             </Link>
           </div>
           
           {/* Related experiences grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {allActivities
-              .filter(a => a.id !== activity.id && a.category === activity.category)
-              .slice(0, 3)
-              .map((relatedActivity) => (
+            {(() => {
+              // Get similar activities from the same category
+              let similarActivities = allActivities
+                .filter(a => a.id !== activity.id && a.category === activity.category);
+              
+              // If we don't have 3 activities from the same category, add some from other categories
+              if (similarActivities.length < 3) {
+                const otherActivities = allActivities
+                  .filter(a => a.id !== activity.id && a.category !== activity.category)
+                  .slice(0, 3 - similarActivities.length);
+                
+                similarActivities = [...similarActivities, ...otherActivities];
+              }
+              
+              // Make sure we only show 3 activities
+              return similarActivities.slice(0, 3).map((relatedActivity) => (
                 <div 
                   key={relatedActivity.id}
                   className="premium-card card-glow-hover group cursor-pointer"
@@ -600,7 +612,8 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
                     </div>
                   </div>
                 </div>
-              ))}
+              ));
+            })()}
           </div>
           
           {/* Mobile View All Button */}

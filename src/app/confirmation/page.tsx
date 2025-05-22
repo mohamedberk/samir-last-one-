@@ -22,6 +22,7 @@ import {
 import { allActivities } from '@/data/activities'
 import { Activity } from '@/types/activity'
 import { Booking } from '@/types/booking'
+import { getBooking } from '@/lib/firebase/services'
 
 function ConfirmationContent() {
   const searchParams = useSearchParams()
@@ -29,14 +30,79 @@ function ConfirmationContent() {
   const [activity, setActivity] = useState<Activity | null>(null)
   const [booking, setBooking] = useState<Partial<Booking> | null>(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [showConfetti, setShowConfetti] = useState(false)
   const confettiRef = useRef<HTMLDivElement>(null)
 
-  // Parse booking data from URL
+  // Parse booking data from URL or fetch from Firestore
   useEffect(() => {
-    try {
-      const bookingParam = searchParams.get('booking')
-      if (bookingParam) {
+    async function fetchBookingData() {
+      try {
+        // Check if there's a reference parameter which means we need to fetch from Firestore
+        const reference = searchParams.get('reference')
+        const bookingParam = searchParams.get('booking')
+
+        if (reference) {
+          // Fetch booking from Firestore
+          setLoading(true)
+          
+          try {
+            const bookingData = await getBooking(reference)
+            
+            if (bookingData) {
+              setBooking(bookingData)
+              
+              // Find the activity
+              if (bookingData.activities && bookingData.activities[0]) {
+                const foundActivity = allActivities.find(a => a.id === bookingData.activities[0].id)
+                if (foundActivity) {
+                  setActivity(foundActivity)
+                  // Show confetti animation
+                  setShowConfetti(true)
+                } else {
+                  console.error('Activity not found in data')
+                  // Set generic error
+                  setError('Unable to load activity details. Please contact support.')
+                }
+              }
+            } else {
+              // If booking wasn't found in Firestore, try to use URL parameters as fallback
+              if (bookingParam) {
+                handleUrlParamBooking(bookingParam)
+              } else {
+                setError('Booking not found. Please check your booking reference.')
+                console.error('Booking not found in Firestore')
+              }
+            }
+          } catch (fetchError) {
+            console.error('Error fetching from Firestore:', fetchError)
+            
+            // Attempt to use URL parameter as fallback if available
+            if (bookingParam) {
+              handleUrlParamBooking(bookingParam)
+            } else {
+              setError('There was an error retrieving your booking. Please try again.')
+            }
+          } finally {
+            setLoading(false)
+          }
+        } else if (bookingParam) {
+          handleUrlParamBooking(bookingParam)
+        } else {
+          setError('No booking reference provided.')
+          setLoading(false)
+        }
+      } catch (error) {
+        console.error('Error in fetchBookingData:', error)
+        setError('There was an error retrieving your booking. Please try again.')
+        setLoading(false)
+      }
+    }
+    
+    // Helper function to handle booking from URL parameter
+    function handleUrlParamBooking(bookingParam: string) {
+      try {
+        // Parse booking from URL parameter (for backward compatibility)
         const parsedBooking = JSON.parse(decodeURIComponent(bookingParam))
         setBooking(parsedBooking)
         
@@ -45,23 +111,19 @@ function ConfirmationContent() {
           const foundActivity = allActivities.find(a => a.id === parsedBooking.activities[0].id)
           if (foundActivity) {
             setActivity(foundActivity)
+            // Show confetti animation
+            setShowConfetti(true)
           }
         }
-        
-        // Generate reference if not present
-        if (!parsedBooking.reference) {
-          parsedBooking.reference = generateBookingReference()
-          setBooking(parsedBooking)
-        }
-
-        // Show confetti animation
-        setShowConfetti(true)
+        setLoading(false)
+      } catch (parseError) {
+        console.error('Error parsing booking from URL:', parseError)
+        setError('There was an error with your booking data. Please try again.')
+        setLoading(false)
       }
-    } catch (error) {
-      console.error('Error parsing booking data:', error)
     }
     
-    setLoading(false)
+    fetchBookingData()
   }, [searchParams])
 
   // Format date
@@ -82,10 +144,83 @@ function ConfirmationContent() {
 
   const bookingReference = booking?.reference || generateBookingReference()
   
+  // Function to generate and download receipt
+  const downloadReceipt = () => {
+    if (!booking || !activity) return;
+
+    // Format the receipt content
+    const receiptContent = `
+VIP MARRAKECH TRIPS
+BOOKING CONFIRMATION
+
+Booking Reference: ${bookingReference}
+Date: ${formatDate(booking.date)}
+
+Customer Information:
+Name: ${booking.customerInfo?.name}
+Email: ${booking.customerInfo?.email}
+Phone: ${booking.customerInfo?.phone}
+Nationality: ${booking.customerInfo?.nationality}
+Pickup Location: ${booking.customerInfo?.pickupLocation}
+
+Experience Details:
+Activity: ${activity.title}
+Type: ${booking.tourType === 'group' ? 'Group Tour' : 'Private Tour'}
+Date: ${formatDate(booking.date)}
+Duration: ${activity.duration}
+
+Guests:
+Adults: ${booking.guests?.adults}
+${booking.guests?.children ? `Children: ${booking.guests.children}` : ''}
+
+Payment Details:
+Total Amount: $${booking.paymentDetails?.totalAmount}
+Status: ${booking.paymentDetails?.status === 'confirmed' ? 'PAID' : 'PENDING'}
+
+Thank you for booking with VIP Marrakech Trips!
+`;
+
+    // Create a blob with the receipt content
+    const blob = new Blob([receiptContent], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    
+    // Create a link element and trigger download
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `VIPMarrakechTrips_Receipt_${bookingReference}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    
+    // Clean up
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   if (loading) {
     return (
       <div className="w-full min-h-screen flex items-center justify-center">
         <div className="w-16 h-16 border-4 border-gray-200 border-t-highlight-primary rounded-full animate-spin"></div>
+      </div>
+    )
+  }
+  
+  if (error) {
+    return (
+      <div className="w-full min-h-screen flex flex-col items-center justify-center p-6">
+        <div className="text-center max-w-md">
+          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-stone-100 flex items-center justify-center">
+            <Ticket size={30} className="text-stone-400" />
+          </div>
+          <h1 className="text-2xl font-semibold mb-4 text-stone-800">Booking Error</h1>
+          <p className="text-stone-600 mb-8">{error}</p>
+          <Link 
+            href="/"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-highlight-primary text-white hover:bg-highlight-primary/90 transition-colors"
+          >
+            Return Home
+            <ArrowLeft size={18} />
+          </Link>
+        </div>
       </div>
     )
   }
@@ -229,6 +364,7 @@ function ConfirmationContent() {
                 </div>
                 
                 <button
+                  onClick={downloadReceipt}
                   className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white border-2 border-highlight-primary/20 hover:border-highlight-primary shadow-sm hover:shadow-glow transition-all font-medium text-stone-700 hover:text-highlight-primary"
                 >
                   <Download size={18} />
@@ -490,7 +626,9 @@ function ConfirmationContent() {
                   
                   {/* Actions */}
                   <div className="space-y-3">
-                    <button className="w-full py-3 rounded-xl bg-highlight-primary text-white font-medium shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                    <button 
+                      onClick={downloadReceipt}
+                      className="w-full py-3 rounded-xl bg-highlight-primary text-white font-medium shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2">
                       <Download size={18} />
                       <span>Download Confirmation</span>
                     </button>

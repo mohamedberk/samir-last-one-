@@ -213,6 +213,9 @@ const config = {
         'input-glow': '0 0 0 2px rgba(139, 92, 246, 0.25)',
         'purple-glow': '0 0 30px rgba(139, 92, 246, 0.3)',
       },
+      scale: {
+        '98': '0.98',
+      },
     },
   },
   plugins: [
