@@ -282,15 +282,24 @@ export default function BookingPage({ params, searchParams }: {
         status: 'confirmed'
       }
       
+      console.log("Attempting to create booking...");
+      
       // Save to Firestore
       const bookingReference = await createBooking(bookingData)
       
+      console.log("Booking reference received:", bookingReference);
+      
       if (!bookingReference) {
-        throw new Error("Failed to create booking")
+        throw new Error("Failed to create booking - no reference returned")
       }
       
-      // Redirect to confirmation page with just the reference
-      router.push(`/confirmation?reference=${bookingReference}`)
+      // For production fallback: If Firebase fails but returns a reference anyway,
+      // include the booking data in the URL params as a fallback
+      const encodedBooking = encodeURIComponent(JSON.stringify(bookingData));
+      
+      // Redirect to confirmation page with reference and encoded booking as fallback
+      console.log("Redirecting to confirmation page");
+      router.push(`/confirmation?reference=${bookingReference}&booking=${encodedBooking}`);
     } catch (error) {
       console.error('Error creating booking:', error)
       setIsProcessing(false)
@@ -426,7 +435,7 @@ export default function BookingPage({ params, searchParams }: {
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        className={`w-full px-5 py-4 border-2 ${formErrors.name ? 'border-red-500 bg-red-50' : 'border-stone-200 focus:border-highlight-primary'} outline-none transition-colors bg-white`}
+                        className={`w-full px-5 py-4 border-2 ${formErrors.name ? 'border-red-500 bg-red-50' : 'border-stone-200 focus:border-highlight-primary'} outline-none transition-colors bg-white text-stone-800`}
                         placeholder="Enter your full name"
                       />
                     </div>
@@ -442,7 +451,7 @@ export default function BookingPage({ params, searchParams }: {
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className={`w-full px-5 py-4 border-2 ${formErrors.email ? 'border-red-500 bg-red-50' : 'border-stone-200 focus:border-highlight-primary'} outline-none transition-colors bg-white`}
+                        className={`w-full px-5 py-4 border-2 ${formErrors.email ? 'border-red-500 bg-red-50' : 'border-stone-200 focus:border-highlight-primary'} outline-none transition-colors bg-white text-stone-800`}
                         placeholder="Enter your email address"
                       />
                     </div>
@@ -459,7 +468,7 @@ export default function BookingPage({ params, searchParams }: {
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className={`w-full px-5 py-4 border-2 ${formErrors.phone ? 'border-red-500 bg-red-50' : 'border-stone-200 focus:border-highlight-primary'} outline-none transition-colors bg-white`}
+                        className={`w-full px-5 py-4 border-2 ${formErrors.phone ? 'border-red-500 bg-red-50' : 'border-stone-200 focus:border-highlight-primary'} outline-none transition-colors bg-white text-stone-800`}
                         placeholder="Enter your phone number"
                       />
                     </div>
@@ -475,7 +484,7 @@ export default function BookingPage({ params, searchParams }: {
                         name="confirmPhone"
                         value={formData.confirmPhone}
                         onChange={handleInputChange}
-                        className={`w-full px-5 py-4 border-2 ${formErrors.confirmPhone ? 'border-red-500 bg-red-50' : 'border-stone-200 focus:border-highlight-primary'} outline-none transition-colors bg-white`}
+                        className={`w-full px-5 py-4 border-2 ${formErrors.confirmPhone ? 'border-red-500 bg-red-50' : 'border-stone-200 focus:border-highlight-primary'} outline-none transition-colors bg-white text-stone-800`}
                         placeholder="Confirm your phone number"
                       />
                     </div>
@@ -491,7 +500,7 @@ export default function BookingPage({ params, searchParams }: {
                         name="nationality"
                         value={formData.nationality}
                         onChange={handleInputChange}
-                        className={`w-full px-5 py-4 border-2 ${formErrors.nationality ? 'border-red-500 bg-red-50' : 'border-stone-200 focus:border-highlight-primary'} outline-none transition-colors bg-white`}
+                        className={`w-full px-5 py-4 border-2 ${formErrors.nationality ? 'border-red-500 bg-red-50' : 'border-stone-200 focus:border-highlight-primary'} outline-none transition-colors bg-white text-stone-800`}
                         placeholder="Your nationality"
                       />
                     </div>
@@ -507,7 +516,7 @@ export default function BookingPage({ params, searchParams }: {
                         name="pickupLocation"
                         value={formData.pickupLocation}
                         onChange={handleInputChange}
-                        className={`w-full px-5 py-4 border-2 ${formErrors.pickupLocation ? 'border-red-500 bg-red-50' : 'border-stone-200 focus:border-highlight-primary'} outline-none transition-colors bg-white`}
+                        className={`w-full px-5 py-4 border-2 ${formErrors.pickupLocation ? 'border-red-500 bg-red-50' : 'border-stone-200 focus:border-highlight-primary'} outline-none transition-colors bg-white text-stone-800`}
                         placeholder="Hotel name or address"
                       />
                     </div>

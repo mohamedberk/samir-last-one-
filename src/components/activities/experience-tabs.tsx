@@ -6,7 +6,7 @@ import { Activity } from '@/types/activity'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { Star, ArrowRight, Heart, Clock, Users, User, Sparkles, RefreshCw, ChevronRight } from 'lucide-react'
+import { Star, ArrowRight, Clock, Users, User, Sparkles, RefreshCw, ChevronRight } from 'lucide-react'
 
 // Category configuration
 const categories = [
@@ -42,7 +42,6 @@ interface ExperienceTabsProps {
 
 export function ExperienceTabs({ className }: ExperienceTabsProps) {
   const [activeCategory, setActiveCategory] = useState("all")
-  const [favoriteActivities, setFavoriteActivities] = useState<string[]>([])
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
   const [tourType, setTourType] = useState<'private' | 'group'>('private')
   const router = useRouter()
@@ -91,16 +90,6 @@ export function ExperienceTabs({ className }: ExperienceTabsProps) {
     router.push(`/booking/${activityId}?type=${tourType}&adults=2&children=0`)
   }
 
-  // Toggle favorite
-  const toggleFavorite = (e: React.MouseEvent, activityId: number) => {
-    e.stopPropagation();
-    setFavoriteActivities(prev => 
-      prev.includes(String(activityId)) 
-        ? prev.filter(id => id !== String(activityId)) 
-        : [...prev, String(activityId)]
-    );
-  }
-
   // Toggle tour type and save preference
   const toggleTourType = () => {
     const newType = tourType === 'private' ? 'group' : 'private'
@@ -119,9 +108,22 @@ export function ExperienceTabs({ className }: ExperienceTabsProps) {
       <div className="max-w-[1400px] mx-auto px-5 sm:px-8" ref={containerRef}>
         {/* Section heading with enhanced styling */}
         <div className="mb-10 relative">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="h-px w-10 bg-highlight-primary"></div>
-            <span className="text-sm font-medium tracking-wide text-highlight-primary">DISCOVER</span>
+          <div className="flex items-center justify-between gap-3 mb-2">
+            <div className="flex items-center gap-3">
+              <div className="h-px w-10 bg-highlight-primary"></div>
+              <span className="text-sm font-medium tracking-wide text-highlight-primary">DISCOVER</span>
+            </div>
+            
+            {/* Move tour type toggle to top for mobile */}
+            <div className="flex md:hidden items-center">
+              <button 
+                onClick={toggleTourType} 
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border border-stone-200 bg-white hover:bg-stone-50 transition-all shadow-sm text-stone-900"
+              >
+                <span>{tourType === 'private' ? 'Group' : 'Private'}</span>
+                <RefreshCw size={12} className="text-highlight-primary" />
+              </button>
+            </div>
           </div>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
             <div>
@@ -185,21 +187,6 @@ export function ExperienceTabs({ className }: ExperienceTabsProps) {
                   className="premium-card-image"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
-                
-                {/* Favorite button with enhanced effects */}
-                <button 
-                  onClick={(e) => toggleFavorite(e, activity.id)}
-                  className="premium-card-favorite"
-                  aria-label={favoriteActivities.includes(String(activity.id)) ? "Remove from favorites" : "Add to favorites"}
-                >
-                  <Heart 
-                    size={18} 
-                    className={favoriteActivities.includes(String(activity.id)) 
-                      ? "fill-highlight-primary text-highlight-primary" 
-                      : "text-stone-700"
-                    } 
-                  />
-                </button>
                 
                 {/* Enhanced rating badge */}
                 {activity.isBestSeller && (
@@ -273,14 +260,6 @@ export function ExperienceTabs({ className }: ExperienceTabsProps) {
               </div>
             </div>
           ))}
-        </div>
-        
-        {/* Tour Type Toggle - Enhanced Mobile */}
-        <div className="mt-10 flex md:hidden items-center justify-center">
-          <button onClick={toggleTourType} className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-sm font-medium bg-black text-white shadow-sm">
-            <span>Switch to {tourType === 'private' ? 'Group' : 'Private'} Tours</span>
-            <RefreshCw size={16} />
-          </button>
         </div>
       </div>
     </section>

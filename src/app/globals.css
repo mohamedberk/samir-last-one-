@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-background text-content antialiased relative;
+    @apply bg-sand-50 text-stone-900 antialiased relative;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
@@ -22,12 +22,12 @@
 @layer components {
   /* Premium Card Design System */
   .premium-card {
-    @apply relative overflow-hidden rounded-premium bg-white transition-all duration-300 shadow-card;
+    @apply relative overflow-hidden rounded-premium bg-white transition-all duration-300 shadow-card border border-stone-200;
     transform: translateZ(0);
   }
   
   .premium-card:hover {
-    @apply shadow-card-hover;
+    @apply shadow-card-hover border-stone-300;
   }
   
   .premium-card-media {
@@ -52,7 +52,7 @@
   }
   
   .premium-card-badge {
-    @apply absolute top-4 left-4 z-20 flex items-center gap-1.5 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5 shadow-subtle overflow-hidden;
+    @apply absolute top-4 left-4 z-20 flex items-center gap-1.5 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5 shadow-subtle overflow-hidden text-stone-700;
   }
   
   .premium-card-badge::before {
@@ -61,11 +61,11 @@
   }
   
   .premium-card-favorite {
-    @apply absolute top-4 right-4 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-sm shadow-subtle transition-all duration-200;
+    @apply absolute top-4 right-4 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-sm shadow-subtle transition-all duration-200 text-stone-600;
   }
   
   .premium-card-favorite:hover {
-    @apply shadow-subtle-hover bg-white;
+    @apply shadow-subtle-hover bg-white text-stone-800;
   }
   
   .premium-card-content {
@@ -85,7 +85,7 @@
   }
   
   .premium-card-description {
-    @apply text-stone-500 mb-5 line-clamp-2;
+    @apply text-stone-600 mb-5 line-clamp-2;
   }
   
   .premium-card-divider {
@@ -105,7 +105,7 @@
   }
   
   .premium-card-button:hover {
-    @apply transform scale-105;
+    @apply transform scale-105 bg-stone-800;
   }
   
   /* Sand-inspired styles */
@@ -166,39 +166,39 @@
 
   /* Clean Form Controls */
   .input-base {
-    @apply block w-full rounded-xl border border-border bg-surface px-4 py-3
-           text-content placeholder-content-muted
+    @apply block w-full rounded-xl border border-stone-200 bg-white px-4 py-3
+           text-stone-900 placeholder-stone-500
            transition-colors duration-200
-           focus:border-brand focus:outline-none 
-           hover:border-border-hover
-           disabled:opacity-60 disabled:cursor-not-allowed;
+           focus:border-highlight-primary focus:outline-none focus:ring-2 focus:ring-highlight-primary/20
+           hover:border-stone-300
+           disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-stone-50;
   }
 
   /* Clean Button System */
   .btn-primary {
     @apply inline-flex items-center justify-center rounded-xl
-           bg-brand px-6 py-2.5 text-sm font-medium text-white
-           transition-colors duration-200
-           hover:bg-opacity-90
-           focus:outline-none
+           bg-highlight-primary px-6 py-2.5 text-sm font-medium text-white
+           transition-all duration-200
+           hover:bg-highlight-primary/90 hover:shadow-lg
+           focus:outline-none focus:ring-2 focus:ring-highlight-primary/30
            disabled:opacity-60 disabled:cursor-not-allowed;
   }
 
   .btn-secondary {
     @apply inline-flex items-center justify-center rounded-xl
-           border border-border bg-surface px-6 py-2.5
-           text-sm font-medium text-content
-           transition-colors duration-200
-           hover:bg-surface-secondary hover:border-border-hover 
-           focus:outline-none
+           border border-stone-200 bg-white px-6 py-2.5
+           text-sm font-medium text-stone-700
+           transition-all duration-200
+           hover:bg-stone-50 hover:border-stone-300 
+           focus:outline-none focus:ring-2 focus:ring-stone-200
            disabled:opacity-60 disabled:cursor-not-allowed;
   }
 
   /* Clean Card */
   .card {
-    @apply rounded-xl border border-border bg-surface p-6
-           transition-colors duration-200
-           hover:border-border-hover;
+    @apply rounded-xl border border-stone-200 bg-white p-6
+           transition-all duration-200
+           hover:border-stone-300 hover:shadow-subtle;
   }
 
   /* Clean Badge */
@@ -208,13 +208,13 @@
   }
 
   .badge-primary {
-    @apply bg-brand/10 text-brand border border-brand/20
-           hover:bg-brand/20;
+    @apply bg-highlight-primary/10 text-highlight-primary border border-highlight-primary/20
+           hover:bg-highlight-primary/20;
   }
 
   .badge-secondary {
-    @apply bg-surface text-content-subtle border border-border
-           hover:bg-surface-secondary;
+    @apply bg-stone-100 text-stone-700 border border-stone-200
+           hover:bg-stone-200;
   }
 
   /* Clean Scrollbar */
@@ -223,8 +223,8 @@
   }
 
   .scrollbar-custom::-webkit-scrollbar-thumb {
-    @apply bg-surface-secondary rounded-full 
-           hover:bg-surface;
+    @apply bg-stone-300 rounded-full 
+           hover:bg-stone-400;
   }
 
   .key-button-shadow {
@@ -235,7 +235,7 @@
   }
 
   .key-button-glow {
-    --purple-glow: theme('colors.purple.600');
+    --purple-glow: theme('colors.highlight.primary');
     box-shadow: 
       0 0 25px 1px var(--purple-glow),
       0 0 10px 1px var(--purple-glow),
@@ -256,13 +256,13 @@
   }
   
   .glass-card-dark {
-    @apply backdrop-blur-xl bg-surface/20 border border-white/10 
+    @apply backdrop-blur-xl bg-stone-900/20 border border-white/10 
            shadow-[0_8px_32px_rgba(0,0,0,0.15)];
   }
   
   .glass-highlight {
     @apply backdrop-blur-xl bg-highlight-primary/10 border border-highlight-primary/20 
-           shadow-[0_8px_32px_rgba(249,115,22,0.1)];
+           shadow-[0_8px_32px_rgba(139,92,246,0.1)];
   }
   
   /* Testimonial Carousel */
@@ -310,6 +310,27 @@
   
   .scrollbar-hide::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
+  }
+
+  /* Shadow utilities */
+  .shadow-subtle {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+
+  .shadow-subtle-hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .shadow-card {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+
+  .shadow-card-hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .shadow-glow {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
   }
 }
 

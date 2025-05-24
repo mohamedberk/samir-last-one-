@@ -115,12 +115,12 @@ export function Footer() {
               <p>Jemaa el-Fnaa, 40000 Marrakech</p>
               <p className="mt-1">
                 <a href="tel:+212612345678" className="hover:text-stone-900 transition-colors">
-                  +212 612 345 678
+                  +212 123 555 555
                 </a>
               </p>
               <p className="mt-1">
-                <a href="mailto:info@vipmarrakechtrips.com" className="hover:text-stone-900 transition-colors">
-                  info@vipmarrakechtrips.com
+                <a href="mailto:info@marrakechtrips.com" className="hover:text-stone-900 transition-colors">
+                  info@marrakechtrips.com
                 </a>
               </p>
             </div>

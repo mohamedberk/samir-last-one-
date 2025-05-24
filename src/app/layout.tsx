@@ -2,6 +2,7 @@ import './globals.css'
 import 'react-datepicker/dist/react-datepicker.css'
 import type { Metadata } from 'next'
 import { Outfit } from 'next/font/google'
+import { AdminLayoutWrapper } from '@/components/admin/admin-layout-wrapper'
 
 // Optimize font loading
 const inter = Outfit({ 
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'VIP Marrakech Trips - Exclusive Tours & Activities in Morocco',
     description: 'Discover authentic Moroccan experiences with VIP Marrakech Trips. Book desert tours, city excursions, and cultural activities with expert local guides.',
-    url: 'https://vipmarrakechtrips.com',
+    url: 'https://marrakechtrips.com',
     siteName: 'VIP Marrakech Trips',
     locale: 'en_US',
     type: 'website',
@@ -71,7 +72,9 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
       </head>
       <body className="bg-sand-50">
-        {children}
+        <AdminLayoutWrapper>
+          {children}
+        </AdminLayoutWrapper>
       </body>
     </html>
   )

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Star, Clock, Users, User, ChevronRight, Heart, MapPin, Shield, Camera, Check, ArrowRight, ArrowLeft } from 'lucide-react'
+import { Star, Clock, Users, User, ChevronRight, MapPin, Shield, Camera, Check, ArrowRight, ArrowLeft } from 'lucide-react'
 import { allActivities } from '@/data/activities'
 import { Activity } from '@/types/activity'
 
@@ -13,7 +13,6 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
   const [activity, setActivity] = useState<Activity | null>(null)
   const [loading, setLoading] = useState(true)
   const [activeImageIndex, setActiveImageIndex] = useState(0)
-  const [isFavorite, setIsFavorite] = useState(false)
   const [selectedType, setSelectedType] = useState<'group' | 'private'>('private')
   const galleryRef = useRef<HTMLDivElement>(null)
   const [guests, setGuests] = useState({ adults: 2, children: 0 })
@@ -207,18 +206,6 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
             </div>
           </div>
         </div>
-        
-        {/* Favorite Button */}
-        <button 
-          onClick={() => setIsFavorite(!isFavorite)}
-          className="absolute top-8 right-8 z-20 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-all hover-scale"
-          aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
-        >
-          <Heart 
-            size={22} 
-            className={isFavorite ? "fill-red-500 text-red-500" : ""} 
-          />
-        </button>
       </div>
       
       {/* Main Content */}

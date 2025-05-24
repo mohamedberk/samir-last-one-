@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 
 import { HeroSection } from '@/components/activities/hero-section'
 import { TestimonialsSection } from '@/components/activities/testimonials-section'
+import { BlogsSection } from '@/components/activities/blogs-section'
 import { Footer } from '@/components/activities/footer'
 
 const ExperienceTabs = dynamic(
@@ -117,6 +118,9 @@ export default function Home() {
 
         {/* Testimonials Section */}
         <TestimonialsSection />
+        
+        {/* Blogs Section */}
+        <BlogsSection />
         
         {/* Footer Section */}
         <Footer />
