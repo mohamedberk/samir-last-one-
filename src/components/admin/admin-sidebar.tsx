@@ -20,9 +20,10 @@ import {
 interface AdminSidebarProps {
   isOpen?: boolean
   onClose?: () => void
+  isMobile?: boolean
 }
 
-export function AdminSidebar({ isOpen = true, onClose }: AdminSidebarProps) {
+export function AdminSidebar({ isOpen = true, onClose, isMobile = false }: AdminSidebarProps) {
   const router = useRouter()
   const pathname = usePathname()
   const [user, setUser] = useState<any>(null)
@@ -70,80 +71,132 @@ export function AdminSidebar({ isOpen = true, onClose }: AdminSidebarProps) {
       active: pathname.startsWith('/admin/blogs')
     }
   ]
-  
-  return (
-    <>
-      {/* Mobile backdrop */}
-      {isOpen && (
-        <div 
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
-          onClick={onClose}
-        />
-      )}
-      
-      {/* Sidebar */}
-      <aside 
-        className={`fixed top-0 left-0 z-50 h-screen w-64 bg-white border-r border-stone-200 transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-      >
-        <div className="h-full flex flex-col">
-          {/* Sidebar header */}
-          <div className="p-4 border-b border-stone-200 flex items-center justify-between">
-            <Link href="/admin" className="flex items-center gap-2">
-              <div className="w-8 h-8 relative flex-shrink-0">
-                <Image 
-                  src="/logo.png" 
-                  alt="VIP Marrakech Trips" 
-                  fill 
-                  className="object-contain"
-                />
-              </div>
-              <span className="font-semibold text-stone-900">Admin Panel</span>
-            </Link>
-            <button 
-              className="md:hidden text-stone-500 hover:text-stone-700"
-              onClick={onClose}
-            >
-              <X size={20} />
-            </button>
-          </div>
-          
-          {/* Navigation */}
-          <nav className="flex-1 p-4">
-            <ul className="space-y-1">
-              {navItems.map((item) => (
-                <li key={item.href}>
+
+  // Mobile sidebar
+  if (isMobile) {
+    return (
+      <>
+        {/* Mobile backdrop */}
+        {isOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+            onClick={onClose}
+          />
+        )}
+        
+        {/* Mobile Sidebar */}
+        <aside 
+          className={`fixed top-0 left-0 z-50 h-screen w-64 bg-white border-r border-stone-200 transform transition-transform duration-300 ease-in-out ${
+            isOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+        >
+          <div className="h-full flex flex-col">
+            {/* Mobile header */}
+            <div className="p-6 border-b border-stone-200 flex items-center justify-between">
+              <Link href="/admin" className="flex items-center gap-3" onClick={onClose}>
+                <div className="w-8 h-8 relative flex-shrink-0">
+                  <Image 
+                    src="/logo.png" 
+                    alt="Admin Panel" 
+                    fill 
+                    className="object-contain"
+                  />
+                </div>
+                <span className="text-lg font-semibold text-stone-900">Admin Panel</span>
+              </Link>
+              <button 
+                className="p-2 rounded-lg border border-stone-200 hover:bg-stone-50 transition-colors"
+                onClick={onClose}
+              >
+                <X size={20} className="text-stone-600" />
+              </button>
+            </div>
+            
+            {/* Navigation */}
+            <nav className="flex-1 p-6">
+              <div className="space-y-2">
+                {navItems.map((item) => (
                   <Link
+                    key={item.href}
                     href={item.href}
-                    className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors ${
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
                       item.active
-                        ? 'bg-highlight-primary text-white'
-                        : 'text-stone-600 hover:bg-stone-100'
+                        ? 'bg-highlight-primary text-white shadow-lg'
+                        : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900'
                     }`}
                     onClick={onClose}
                   >
                     {item.icon}
-                    <span>{item.label}</span>
+                    <span className="font-medium">{item.label}</span>
                   </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          
-          {/* User info and sign out */}
-          <div className="p-4 border-t border-stone-200">
+                ))}
+              </div>
+            </nav>
             
-            <button
-              onClick={handleSignOut}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-stone-600 hover:bg-stone-100 w-full"
-            >
-              <LogOut size={20} />
-              <span>Sign Out</span>
-            </button>
+            {/* Sign out */}
+            <div className="p-6 border-t border-stone-200">
+              <button
+                onClick={handleSignOut}
+                className="flex items-center gap-3 px-4 py-3 rounded-xl text-stone-600 hover:bg-stone-50 hover:text-stone-900 w-full transition-all duration-200"
+              >
+                <LogOut size={20} />
+                <span className="font-medium">Sign Out</span>
+              </button>
+            </div>
           </div>
+        </aside>
+      </>
+    )
+  }
+
+  // Desktop sidebar
+  return (
+    <aside className="w-64 h-screen bg-white border-r border-stone-200 flex flex-col sticky top-0">
+      {/* Header */}
+      <div className="p-6 border-b border-stone-200">
+        <Link href="/admin" className="flex items-center gap-3">
+          <div className="w-8 h-8 relative flex-shrink-0">
+            <Image 
+              src="/logo.png" 
+              alt="Admin Panel" 
+              fill 
+              className="object-contain"
+            />
+          </div>
+          <span className="text-lg font-semibold text-stone-900">Admin Panel</span>
+        </Link>
+      </div>
+      
+      {/* Navigation */}
+      <nav className="flex-1 p-6">
+        <div className="space-y-2">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+                item.active
+                  ? 'bg-highlight-primary text-white shadow-lg'
+                  : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900'
+              }`}
+            >
+              {item.icon}
+              <span className="font-medium">{item.label}</span>
+            </Link>
+          ))}
         </div>
-      </aside>
-    </>
+      </nav>
+      
+      {/* User section */}
+      <div className="p-6 border-t border-stone-200">
+        <button
+          onClick={handleSignOut}
+          className="flex items-center gap-3 px-4 py-3 rounded-xl text-stone-600 hover:bg-stone-50 hover:text-stone-900 w-full transition-all duration-200"
+        >
+          <LogOut size={20} />
+          <span className="font-medium">Sign Out</span>
+        </button>
+      </div>
+    </aside>
   )
 } 

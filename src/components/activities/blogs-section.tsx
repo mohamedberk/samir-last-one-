@@ -25,47 +25,40 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
   return (
     <Link 
       href={`/blog/${blog.id}`}
-      className="group bg-white rounded-premium border border-stone-200 overflow-hidden hover:shadow-subtle-hover transition-all duration-300"
+      className="premium-card group transform transition-all duration-500 hover:-translate-y-1"
     >
-      <div className="aspect-[4/3] overflow-hidden">
+      <div className="premium-card-media h-[280px]">
         <img 
           src={blog.imageUrl || '/logo.png'} 
           alt={blog.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          className="premium-card-image w-full h-full object-cover"
         />
+        
+        <div className="premium-card-badge">
+          <Calendar size={12} />
+          <span className="text-xs font-semibold">{formatDate(blog.publishedAt)}</span>
+        </div>
       </div>
       
-      <div className="p-6">
+      <div className="premium-card-content">
         <div className="flex items-center gap-4 text-xs text-stone-500 mb-3">
-          <div className="flex items-center gap-1">
-            <Calendar size={12} />
-            <span>{formatDate(blog.publishedAt)}</span>
-          </div>
           <div className="flex items-center gap-1">
             <Clock size={12} />
             <span>{calculateReadTime(blog.content)}</span>
           </div>
+          <div className="flex items-center gap-1">
+            <User size={12} />
+            <span>{blog.author}</span>
+          </div>
         </div>
         
-        <h3 className="font-semibold text-stone-900 mb-2 group-hover:text-highlight-primary transition-colors">
+        <h3 className="premium-card-title group-hover:text-highlight-primary transition-colors">
           {blog.title}
         </h3>
         
-        <p className="text-sm text-stone-600 mb-4 line-clamp-2">
+        <p className="premium-card-description">
           {blog.excerpt}
         </p>
-        
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <User size={14} className="text-stone-400" />
-            <span className="text-sm text-stone-600">{blog.author}</span>
-          </div>
-          
-          <div className="flex items-center gap-1 text-highlight-primary text-sm font-medium">
-            <span>Read more</span>
-            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-          </div>
-        </div>
         
         <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-stone-100">
           {blog.tags.slice(0, 2).map((tag, index) => (
@@ -109,34 +102,39 @@ export function BlogsSection() {
   }
 
   return (
-    <section className="w-full bg-white relative py-16 border-t border-stone-200">
-      <div className="max-w-[1400px] mx-auto px-5 sm:px-8">
+    <section className="w-full bg-sand-gradient relative py-16 border-t border-sand-200">
+      {/* Subtle noise background */}
+      <div className="absolute inset-0 bg-noise opacity-30 pointer-events-none"></div>
+      
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-8 relative">
         {/* Section Header */}
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="h-px w-12 bg-highlight-primary"></div>
-            <span className="text-sm font-medium text-highlight-primary uppercase tracking-wider">
+        <div className="mb-10 relative">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="h-px w-10 bg-highlight-primary"></div>
+            <span className="text-sm font-medium tracking-wide text-highlight-primary uppercase">
               Travel Stories
             </span>
-            <div className="h-px w-12 bg-highlight-primary"></div>
           </div>
           
-          <h2 className="text-3xl md:text-4xl font-bold text-stone-900 mb-4">
-            Discover Morocco Through Our Stories
-          </h2>
-          
-          <p className="text-stone-600 max-w-2xl mx-auto">
-            Get inspired by our travel guides, cultural insights, and insider tips 
-            to make the most of your Moroccan adventure.
-          </p>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-semibold text-stone-900 tracking-tight leading-tight">
+                Discover Morocco Through Our Stories
+              </h2>
+              <p className="mt-2 text-stone-600 max-w-lg">
+                Get inspired by our travel guides, cultural insights, and insider tips 
+                to make the most of your Moroccan adventure.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Blog Grid */}
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 xl:gap-10 mb-10">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="bg-white rounded-premium border border-stone-200 overflow-hidden animate-pulse">
-                <div className="aspect-[4/3] bg-stone-200"></div>
+              <div key={i} className="premium-card animate-pulse">
+                <div className="h-[280px] bg-stone-100 rounded-t-premium"></div>
                 <div className="p-6">
                   <div className="flex items-center gap-4 mb-3">
                     <div className="h-3 w-20 bg-stone-200 rounded"></div>
@@ -154,13 +152,13 @@ export function BlogsSection() {
             ))}
           </div>
         ) : blogs.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 xl:gap-10 mb-10">
             {blogs.map((blog) => (
               <BlogCard key={blog.id} blog={blog} />
             ))}
           </div>
         ) : (
-          <div className="text-center py-12">
+          <div className="text-center py-12 mb-10">
             <p className="text-stone-500 mb-4">No blog posts available yet.</p>
             <p className="text-sm text-stone-400">Check back soon for travel stories and insights!</p>
           </div>
@@ -171,7 +169,7 @@ export function BlogsSection() {
           <div className="text-center">
             <Link 
               href="/blog"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-highlight-primary text-white rounded-full hover:bg-highlight-primary/90 transition-colors font-medium"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-stone-900 text-white rounded-full hover:bg-stone-800 transition-all font-medium shadow-subtle hover:shadow-subtle-hover"
             >
               <span>View All Articles</span>
               <ArrowRight size={18} />

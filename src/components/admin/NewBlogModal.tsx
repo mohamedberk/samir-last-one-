@@ -165,9 +165,9 @@ export default function NewBlogModal({ isOpen, onClose, onSuccess }: NewBlogModa
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl max-w-5xl w-full max-h-[95vh] overflow-hidden">
+      <div className="bg-white rounded-xl w-[90vw] max-w-[60vw] h-[90vh] max-h-[90vh] overflow-hidden mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-stone-200">
+        <div className="flex items-center justify-between p-6 border-b border-stone-200 flex-shrink-0">
           <div>
             <h2 className="text-2xl font-bold text-stone-900">Create New Blog Post</h2>
             <p className="text-stone-500 mt-1">Write and publish your travel story</p>
@@ -200,8 +200,8 @@ export default function NewBlogModal({ isOpen, onClose, onSuccess }: NewBlogModa
         </div>
 
         {/* Content */}
-        <div className="overflow-y-auto max-h-[calc(95vh-120px)]">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6">
+        <div className="overflow-y-auto h-[calc(90vh-120px)] flex-1">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6 min-h-full">
             {/* Main Content */}
             <div className="lg:col-span-2 space-y-6">
               {/* Title */}

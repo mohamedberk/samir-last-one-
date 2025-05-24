@@ -154,20 +154,6 @@ export function HeroSection() {
             </div>
           </div>
         </div>
-        
-        {/* Mobile featured destinations */}
-        <div className="flex md:hidden items-center gap-3 overflow-x-auto pb-2 scrollbar-custom mt-10">
-          {featuredDestinations.map((dest, i) => (
-            <div key={i} className="flex-shrink-0 bg-white rounded-xl px-4 py-3 border border-stone-200 shadow-sm">
-              <div className="text-stone-800 font-medium">{dest.name}</div>
-              <div className="flex items-center gap-1 text-xs text-stone-500">
-                <Star size={12} className="fill-highlight-primary text-highlight-primary" />
-                <span>{dest.rating}</span>
-                <span>({dest.count})</span>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   )
