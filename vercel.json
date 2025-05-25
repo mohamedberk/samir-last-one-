@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "name": "samir-last-one-",
+  "functions": {
+    "src/pages/api/**/*.js": {
+      "maxDuration": 30
+    }
+  }
+} 

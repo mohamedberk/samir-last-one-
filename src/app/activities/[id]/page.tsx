@@ -8,7 +8,7 @@ import { Star, Clock, Users, User, ChevronRight, MapPin, Shield, Camera, Check, 
 import { allActivities } from '@/data/activities'
 import { Activity } from '@/types/activity'
 
-export default function ActivityDetailPage({ params }: { params: { id: string } }) {
+export default function ActivityDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
   const [activity, setActivity] = useState<Activity | null>(null)
   const [loading, setLoading] = useState(true)
@@ -16,11 +16,17 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
   const [selectedType, setSelectedType] = useState<'group' | 'private'>('private')
   const galleryRef = useRef<HTMLDivElement>(null)
   const [guests, setGuests] = useState({ adults: 2, children: 0 })
+  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null)
   
   // Parallax effect state
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 })
   const [isHovering, setIsHovering] = useState(false)
   const heroRef = useRef<HTMLDivElement>(null)
+  
+  // Resolve params
+  useEffect(() => {
+    params.then(setResolvedParams)
+  }, [params])
   
   // Calculate base price based on selection
   const calculateBasePrice = () => {
@@ -79,7 +85,9 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
   
   // Fetch activity data
   useEffect(() => {
-    const activityId = parseInt(params.id)
+    if (!resolvedParams) return
+    
+    const activityId = parseInt(resolvedParams.id)
     if (isNaN(activityId)) {
       router.push('/')
       return
@@ -105,9 +113,9 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
     }
     
     setLoading(false)
-  }, [params.id, router])
+  }, [resolvedParams, router])
   
-  if (loading) {
+  if (loading || !resolvedParams) {
     return (
       <div className="w-full min-h-screen flex items-center justify-center">
         <div className="w-16 h-16 border-4 border-gray-200 border-t-black rounded-full animate-spin"></div>

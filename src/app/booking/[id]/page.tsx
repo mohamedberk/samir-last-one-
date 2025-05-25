@@ -12,10 +12,12 @@ import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
 import { createBooking } from '@/lib/firebase/services'
 
-export default function BookingPage({ params, searchParams }: { 
-  params: { id: string },
-  searchParams: { [key: string]: string | string[] | undefined }
-}) {
+interface BookingPageProps {
+  params: Promise<{ id: string }>,
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
+
+export default function BookingPage({ params, searchParams }: BookingPageProps) {
   const router = useRouter()
   const [activity, setActivity] = useState<Activity | null>(null)
   const [loading, setLoading] = useState(true)
@@ -36,10 +38,21 @@ export default function BookingPage({ params, searchParams }: {
   const [formErrors, setFormErrors] = useState<{[key: string]: string}>({})
   const [isProcessing, setIsProcessing] = useState(false)
   
+  // Resolve params and searchParams
+  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null)
+  const [resolvedSearchParams, setResolvedSearchParams] = useState<{ [key: string]: string | string[] | undefined } | null>(null)
+
+  useEffect(() => {
+    Promise.all([params, searchParams]).then(([p, sp]) => {
+      setResolvedParams(p)
+      setResolvedSearchParams(sp)
+    })
+  }, [params, searchParams])
+  
   // Get query params
-  const tourType = searchParams.type as string || 'group'
-  const adults = parseInt(searchParams.adults as string || '2')
-  const children = parseInt(searchParams.children as string || '0')
+  const tourType = resolvedSearchParams?.type as string || 'group'
+  const adults = parseInt(resolvedSearchParams?.adults as string || '2')
+  const children = parseInt(resolvedSearchParams?.children as string || '0')
   
   // Scroll to section
   const bookingSummaryRef = useRef<HTMLDivElement>(null)
@@ -307,14 +320,15 @@ export default function BookingPage({ params, searchParams }: {
     }
   }
   
-  // Fetch activity data
   useEffect(() => {
-    const activityId = parseInt(params.id)
+    if (!resolvedParams) return
+    
+    const activityId = parseInt(resolvedParams.id)
     if (isNaN(activityId)) {
       router.push('/')
       return
     }
-    
+
     const foundActivity = allActivities.find(a => a.id === activityId)
     if (foundActivity) {
       setActivity(foundActivity)
@@ -323,14 +337,14 @@ export default function BookingPage({ params, searchParams }: {
     }
     
     setLoading(false)
-  }, [params.id, router])
-  
+  }, [resolvedParams, router])
+
   // Set formatted date on initial load
   useEffect(() => {
     setFormattedDate(formatDate(bookingDate))
   }, [])
   
-  if (loading) {
+  if (loading || !resolvedParams || !resolvedSearchParams) {
     return (
       <div className="w-full min-h-screen flex items-center justify-center">
         <div className="w-16 h-16 border-4 border-gray-200 border-t-black rounded-full animate-spin"></div>

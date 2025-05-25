@@ -24,16 +24,17 @@ export async function middleware(request: NextRequest) {
   }
   
   try {
-    // Here we would verify the session token
-    // This is a simplified version, you'll need to implement proper token verification
-    // For now, we'll just check if a session exists
+    // Simple session check - you may want to implement a more secure solution
+    const userEmail = request.cookies.get('userEmail')?.value
     
-    // In a real implementation, you'd verify the session with Firebase Admin SDK
-    // And check if the user's email is in the ADMIN_EMAILS list
+    if (!userEmail || !ADMIN_EMAILS.includes(userEmail)) {
+      console.log('User not in admin list:', userEmail);
+      return NextResponse.redirect(new URL('/admin/login', request.url))
+    }
     
     return NextResponse.next()
   } catch (error) {
-    console.error('Error verifying auth token:', error)
+    console.error('Error checking auth:', error)
     return NextResponse.redirect(new URL('/admin/login', request.url))
   }
 }
@@ -41,4 +42,4 @@ export async function middleware(request: NextRequest) {
 // Only run middleware on admin routes
 export const config = {
   matcher: ['/admin/:path*'],
-} 
+}
