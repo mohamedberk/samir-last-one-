@@ -306,13 +306,9 @@ export default function BookingPage({ params, searchParams }: BookingPageProps) 
         throw new Error("Failed to create booking - no reference returned")
       }
       
-      // For production fallback: If Firebase fails but returns a reference anyway,
-      // include the booking data in the URL params as a fallback
-      const encodedBooking = encodeURIComponent(JSON.stringify(bookingData));
-      
-      // Redirect to confirmation page with reference and encoded booking as fallback
+      // Redirect to confirmation page with reference only
       console.log("Redirecting to confirmation page");
-      router.push(`/confirmation?reference=${bookingReference}&booking=${encodedBooking}`);
+      router.push(`/confirmation?reference=${bookingReference}`);
     } catch (error) {
       console.error('Error creating booking:', error)
       setIsProcessing(false)

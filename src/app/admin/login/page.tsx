@@ -36,12 +36,7 @@ export default function AdminLogin() {
         <div className="bg-white rounded-premium shadow-premium p-8 border border-stone-200">
           <div className="flex flex-col items-center mb-8">
             <div className="w-16 h-16 relative mb-4">
-              <Image 
-                src="/logo.png" 
-                alt="VIP Marrakech Trips" 
-                fill 
-                className="object-contain"
-              />
+              
             </div>
             <h1 className="text-2xl font-bold text-stone-900">Admin Login</h1>
             <p className="text-stone-600 text-center mt-2">

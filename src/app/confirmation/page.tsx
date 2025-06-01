@@ -38,9 +38,7 @@ function ConfirmationContent() {
   useEffect(() => {
     async function fetchBookingData() {
       try {
-        // Check if there's a reference parameter which means we need to fetch from Firestore
         const reference = searchParams.get('reference')
-        const bookingParam = searchParams.get('booking')
 
         if (reference) {
           // Fetch booking from Firestore
@@ -61,33 +59,19 @@ function ConfirmationContent() {
                   setShowConfetti(true)
                 } else {
                   console.error('Activity not found in data')
-                  // Set generic error
                   setError('Unable to load activity details. Please contact support.')
                 }
               }
             } else {
-              // If booking wasn't found in Firestore, try to use URL parameters as fallback
-              if (bookingParam) {
-                handleUrlParamBooking(bookingParam)
-              } else {
-                setError('Booking not found. Please check your booking reference.')
-                console.error('Booking not found in Firestore')
-              }
+              setError('Booking not found. Please check your booking reference.')
+              console.error('Booking not found in Firestore')
             }
           } catch (fetchError) {
             console.error('Error fetching from Firestore:', fetchError)
-            
-            // Attempt to use URL parameter as fallback if available
-            if (bookingParam) {
-              handleUrlParamBooking(bookingParam)
-            } else {
-              setError('There was an error retrieving your booking. Please try again.')
-            }
+            setError('There was an error retrieving your booking. Please try again.')
           } finally {
             setLoading(false)
           }
-        } else if (bookingParam) {
-          handleUrlParamBooking(bookingParam)
         } else {
           setError('No booking reference provided.')
           setLoading(false)
@@ -95,30 +79,6 @@ function ConfirmationContent() {
       } catch (error) {
         console.error('Error in fetchBookingData:', error)
         setError('There was an error retrieving your booking. Please try again.')
-        setLoading(false)
-      }
-    }
-    
-    // Helper function to handle booking from URL parameter
-    function handleUrlParamBooking(bookingParam: string) {
-      try {
-        // Parse booking from URL parameter (for backward compatibility)
-        const parsedBooking = JSON.parse(decodeURIComponent(bookingParam))
-        setBooking(parsedBooking)
-        
-        // Find the activity
-        if (parsedBooking.activities && parsedBooking.activities[0]) {
-          const foundActivity = allActivities.find(a => a.id === parsedBooking.activities[0].id)
-          if (foundActivity) {
-            setActivity(foundActivity)
-            // Show confetti animation
-            setShowConfetti(true)
-          }
-        }
-        setLoading(false)
-      } catch (parseError) {
-        console.error('Error parsing booking from URL:', parseError)
-        setError('There was an error with your booking data. Please try again.')
         setLoading(false)
       }
     }

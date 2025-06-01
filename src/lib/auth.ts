@@ -16,6 +16,16 @@ export const ADMIN_EMAILS = [
 
 export const signIn = async (email: string, password: string) => {
   try {
+    // Temporary hardcoded admin login for testing
+    if (email === 'admin@test.com' && password === 'admin123') {
+      // Mock successful authentication
+      setCookie('session', 'mock-admin-token', {
+        maxAge: 60 * 60 * 24 * 7, // 1 week
+        path: '/',
+      })
+      return { email: 'admin@test.com' } as any
+    }
+    
     if (!auth) {
       throw new Error('Firebase auth is not initialized')
     }

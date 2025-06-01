@@ -41,7 +41,7 @@ export function HeroSection() {
                   </div>
                   
                   <h1 className="text-3xl md:text-4xl font-semibold text-stone-900 tracking-tight leading-tight mb-6">
-                    Authentic Moroccan Experiences
+                    Authentic Moroccan
                   </h1>
                   
                   <p className="text-stone-600 mb-8 text-base leading-relaxed">
